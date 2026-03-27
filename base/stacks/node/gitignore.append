@@ -1,0 +1,8 @@
+# Node.js (auto-detected)
+node_modules/
+dist/
+build/
+.next/
+out/
+coverage/
+*.log

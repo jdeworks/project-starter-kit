@@ -1,0 +1,23 @@
+{
+  "output": {
+    "filePath": "bundle.xml",
+    "style": "xml"
+  },
+  "ignore": {
+    "useGitignore": true,
+    "useDefaultPatterns": true,
+    "customPatterns": [
+      ".claude/",
+      ".cursor/",
+      ".windsurf/",
+      ".opencode/",
+      ".github/",
+      "docs/",
+      "scripts/",
+      "bundle.xml",
+      "SESSION_SUMMARY.md",
+      "CHANGES.md",
+      "MIGRATION.md"
+    ]
+  }
+}

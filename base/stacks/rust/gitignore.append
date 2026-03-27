@@ -1,0 +1,3 @@
+# Rust (auto-detected)
+/target/
+Cargo.lock

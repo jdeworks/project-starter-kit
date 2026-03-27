@@ -1,0 +1,9 @@
+# .NET (auto-detected)
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+[Dd]ebug/
+[Rr]elease/
