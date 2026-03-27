@@ -50,7 +50,6 @@ if [ -z "$VARIANT" ] || [ -z "$TARGET" ]; then
   echo "project-starter-kit compose (interactive)"
   echo "=========================================="
   if [ -z "$VARIANT" ]; then
-    echo ""
     echo "Available variants:"
     i=1
     for v in $VALID_VARIANTS; do printf "  %2d) %s\n" "$i" "$v"; i=$((i+1)); done
@@ -98,11 +97,35 @@ if [ "$AUTO_YES" = false ] && [ -t 0 ]; then
   [[ "$confirm" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
 fi
 
-# ── Copy layers ──────────────────────────────────────────────────────────────
+# ── Copy layers (exclude kit-internal files, variant AGENTS.md replaces base) ─
 echo "==> Copying base layer..."
-cp -rn "$KIT_ROOT/base/." "$TARGET/" 2>/dev/null || true
+while IFS= read -r -d '' f; do
+  rel="${f#$KIT_ROOT/base/}"
+  case "$rel" in stacks/*|repomix.config.json|README.md) continue ;; esac
+  dest="$TARGET/$rel"
+  [ -d "$(dirname "$dest")" ] || mkdir -p "$(dirname "$dest")"
+  [ -e "$dest" ] || cp "$f" "$dest"
+done < <(find "$KIT_ROOT/base" -type f -not -path '*/.git/*' -print0 2>/dev/null)
+
 echo "==> Copying $VARIANT variant..."
-cp -rn "$KIT_ROOT/$VARIANT/." "$TARGET/" 2>/dev/null || true
+while IFS= read -r -d '' f; do
+  rel="${f#$KIT_ROOT/$VARIANT/}"
+  case "$rel" in README.md) continue ;; esac
+  dest="$TARGET/$rel"
+  [ -d "$(dirname "$dest")" ] || mkdir -p "$(dirname "$dest")"
+  if [ "$rel" = "AGENTS.md" ]; then
+    # Merge: append variant content into base AGENTS.md (skip if user already modified it)
+    if [ -e "$dest" ] && grep -q '<!-- FILL IN' "$dest" 2>/dev/null; then
+      # Base template exists — append variant content (skip the "Extends base" header line)
+      echo "" >> "$dest"
+      sed '1,/^---$/d' "$f" >> "$dest" 2>/dev/null || cat "$f" >> "$dest"
+    elif [ ! -e "$dest" ]; then
+      cp "$f" "$dest"
+    fi
+  else
+    [ -e "$dest" ] || cp "$f" "$dest"
+  fi
+done < <(find "$KIT_ROOT/$VARIANT" -type f -not -path '*/.git/*' -print0 2>/dev/null)
 
 # ── Set mode ─────────────────────────────────────────────────────────────────
 if [ "$MODE" = "lean" ] && grep -q "Default: \*\*full\*\*" "$TARGET/AGENTS.md" 2>/dev/null; then
