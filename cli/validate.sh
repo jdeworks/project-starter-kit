@@ -46,7 +46,7 @@ for v in $VALID_VARIANTS; do
 
   # Extract doc paths from markdown table rows like: | `docs/foo.md` |
   while IFS= read -r doc_ref; do
-    doc_path=$(echo "$doc_ref" | grep -oP '`docs/[^`]+`' | tr -d '`' || true)
+    doc_path=$(echo "$doc_ref" | sed -n 's/.*`\(docs\/[^`]*\)`.*/\1/p' || true)
     if [ -n "$doc_path" ]; then
       full_path="$KIT_ROOT/$v/$doc_path"
       if [ ! -f "$full_path" ]; then

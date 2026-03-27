@@ -28,7 +28,6 @@ EOF
   exit 0
 }
 
-# Parse args
 for arg in "$@"; do
   case "$arg" in
     --help|-h) show_help ;;
@@ -51,6 +50,12 @@ if [ -d "$TARGET" ]; then
   exit 1
 fi
 
+# Check prerequisites
+if ! command -v git >/dev/null 2>&1; then
+  echo "Error: git is required. Install it first."
+  exit 1
+fi
+
 echo ""
 echo "project-starter-kit"
 echo "==================="
@@ -64,22 +69,32 @@ TMPDIR=$(mktemp -d)
 trap 'rm -rf "$TMPDIR"' EXIT
 
 echo "==> Downloading base + $VARIANT..."
-git clone --filter=blob:none --no-checkout --depth=1 -b "$BRANCH" \
-  "$REPO_URL" "$TMPDIR/kit" 2>/dev/null
+if ! git clone --filter=blob:none --no-checkout --depth=1 -b "$BRANCH" \
+  "$REPO_URL" "$TMPDIR/kit" 2>&1 | tail -1; then
+  echo "Error: failed to clone repository. Check your network connection."
+  exit 1
+fi
 
 cd "$TMPDIR/kit"
-git sparse-checkout init --cone 2>/dev/null
-git sparse-checkout set base "$VARIANT" cli 2>/dev/null
-git checkout "$BRANCH" 2>/dev/null
+if ! git sparse-checkout init --cone 2>&1; then
+  echo "Error: sparse-checkout failed. Requires git 2.25+."
+  exit 1
+fi
+git sparse-checkout set base "$VARIANT" cli
+git checkout "$BRANCH"
+
+# Verify files were actually downloaded
+if [ ! -f "cli/compose.sh" ]; then
+  echo "Error: download incomplete — cli/compose.sh not found."
+  exit 1
+fi
 
 # ── Compose into target ─────────────────────────────────────────────────────
 echo "==> Composing project..."
 mkdir -p "$TARGET"
-bash cli/compose.sh --variant "$VARIANT" --mode "$MODE" --target "$TARGET" --yes 2>/dev/null
+bash cli/compose.sh --variant "$VARIANT" --mode "$MODE" --target "$TARGET" --yes
 
-# ── Clean up — remove the clone ──────────────────────────────────────────────
 cd "$TARGET"
-# rm -rf "$TMPDIR" handled by trap
 
 echo ""
 echo "Done. Your project is at: $TARGET"

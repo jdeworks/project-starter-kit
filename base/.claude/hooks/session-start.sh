@@ -38,7 +38,8 @@ fi
 
 # Output as additionalContext for Claude Code (v2.1.9+)
 if [ -n "$output" ]; then
-  printf '{"additionalContext": "%s"}' "$(printf '%s' "$output" | python3 -c "import sys,json; print(json.dumps(sys.stdin.read()))" | tr -d '"')"
+  escaped=$(printf '%s' "$output" | python3 -c "import sys,json; sys.stdout.write(json.dumps(sys.stdin.read()))" 2>/dev/null || printf '"%s"' "$output")
+  printf '{"additionalContext": %s}' "$escaped"
 fi
 
 exit 0

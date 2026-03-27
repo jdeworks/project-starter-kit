@@ -4,7 +4,10 @@
 # Triggered by: PostToolUse on Edit|Write|MultiEdit
 set -uo pipefail
 
-input=$(cat)
+# Read hook input with timeout to prevent hanging
+input=$(timeout 2 cat 2>/dev/null || echo "")
+[ -z "$input" ] && exit 0
+
 file_path=$(echo "$input" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('tool_input',{}).get('file_path',''))" 2>/dev/null || echo "")
 
 [ -z "$file_path" ] && exit 0
