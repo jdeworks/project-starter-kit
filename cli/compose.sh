@@ -122,7 +122,9 @@ fi
 if [ -n "$STARTER" ]; then
   echo "==> Copying $STARTER starter..."
   copy_layer "$KIT_ROOT/$VARIANT/starters/$STARTER" "$TARGET"
-  [ -x "$TARGET/verify.sh" ] && echo "==> Verifying starter..." && (cd "$TARGET" && bash verify.sh) || true
+  if [ -x "$TARGET/verify.sh" ]; then
+    echo "==> Verifying starter..." && (cd "$TARGET" && bash verify.sh) || true; rm -f "$TARGET/verify.sh"
+  fi
 fi
 
 # ── Set mode ─────────────────────────────────────────────────────────────────

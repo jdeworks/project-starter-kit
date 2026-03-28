@@ -20,7 +20,8 @@ npm run dev
 | Command              | Description                        |
 | -------------------- | ---------------------------------- |
 | `npm run dev`        | Start Tauri dev mode (hot-reload)  |
-| `npm run build`      | Build production app               |
+| `npm run build`      | Build frontend (vite)              |
+| `npm run build:app`  | Build full Tauri app (needs Rust)  |
 | `npm test`           | Run frontend tests with Vitest     |
 | `npm run format`     | Format code with Prettier          |
 | `npm run lint`       | Lint with ESLint                   |

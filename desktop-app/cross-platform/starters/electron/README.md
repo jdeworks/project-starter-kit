@@ -18,7 +18,7 @@ npm run dev
 | Command              | Description                        |
 | -------------------- | ---------------------------------- |
 | `npm run dev`        | Build and launch the app           |
-| `npm run build`      | Package with electron-builder      |
+| `npm run build`      | Build main + renderer              |
 | `npm test`           | Run tests with Vitest              |
 | `npm run format`     | Format code with Prettier          |
 | `npm run lint`       | Lint with ESLint                   |
