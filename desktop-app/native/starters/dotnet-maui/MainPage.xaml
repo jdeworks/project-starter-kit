@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MyApp.ViewModels"
+    x:Class="MyApp.MainPage"
+    Title="Home">
+
+    <ContentPage.BindingContext>
+        <vm:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Spacing="24" Padding="30" VerticalOptions="Center">
+        <Label
+            Text="Welcome to My App"
+            FontSize="28"
+            HorizontalOptions="Center" />
+
+        <Label
+            Text="{Binding CountText}"
+            FontSize="48"
+            FontAttributes="Bold"
+            HorizontalOptions="Center" />
+
+        <Button
+            Text="Click me"
+            Command="{Binding IncrementCommand}"
+            HorizontalOptions="Center"
+            BackgroundColor="{StaticResource Primary}"
+            TextColor="White" />
+
+        <Button
+            Text="Reset"
+            Command="{Binding ResetCommand}"
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+
+</ContentPage>

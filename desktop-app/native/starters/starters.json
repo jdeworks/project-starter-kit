@@ -1,0 +1,12 @@
+{
+  "variant": "desktop-app/native",
+  "prompt": "Which native framework?",
+  "starters": [
+    {
+      "id": "dotnet-maui",
+      "name": ".NET MAUI",
+      "description": "Cross-platform native app with C# and XAML — Windows, macOS, mobile",
+      "stack": "dotnet"
+    }
+  ]
+}

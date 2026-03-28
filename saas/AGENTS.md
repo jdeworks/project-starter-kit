@@ -15,39 +15,16 @@ use Next.js + Stripe as a concrete starting point — adapt them to your stack.
 
 ---
 
-## Quick start (example: Next.js + Stripe)
+## Quick start
 
-```bash
-npx create-next-app@latest my-saas --typescript
-cd my-saas
-npm install stripe @stripe/stripe-js
-npm install @clerk/nextjs   # or your auth provider
-npm run dev
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-<details>
-<summary>Other stacks</summary>
+- `nextjs` — Next.js with App Router, SSR, and API routes
+- `sveltekit` — SvelteKit with server-side rendering and form actions
 
-**Nuxt + Stripe:**
-```bash
-npx nuxi@latest init my-saas
-cd my-saas && npm install stripe
-```
-
-**Rails + Stripe:**
-```bash
-rails new my-saas --database=postgresql
-bundle add stripe pay
-```
-
-**Laravel + Stripe:**
-```bash
-composer create-project laravel/laravel my-saas
-composer require laravel/cashier
-```
+Then: `npm install && npm run dev`
 
 See `docs/stack-choice.md` for a full comparison.
-</details>
 
 ---
 

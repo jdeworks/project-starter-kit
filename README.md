@@ -15,13 +15,19 @@ honest across sessions.
 
 ## Quick start
 
-Pick a variant from the table below, then run one command:
+Navigate to your project folder and run:
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) website my-site
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh)
 ```
 
-This downloads only the files you need (no git history, no other variants) into `my-site/`.
+The script walks you through picking a variant and starter template. You can also pass them directly:
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) game-dev --starter pixijs
+```
+
+This downloads only the files you need (no git history, no other variants) into the current directory.
 Then open your AI agent and say:
 
 > Read AGENTS.md and tell me what mode we're in and what commands are available.
@@ -36,8 +42,8 @@ Each variant's README has the exact command — browse to any variant below and 
 git clone --filter=blob:none --no-checkout --depth=1 \
   -b dev https://github.com/jdeworks/project-starter-kit.git /tmp/_psk
 cd /tmp/_psk && git sparse-checkout init --cone
-git sparse-checkout set base website cli && git checkout dev
-bash cli/compose.sh --variant website --mode full --target ~/my-site --yes
+git sparse-checkout set base website/AGENTS.md website/docs website/starters/vanilla cli && git checkout dev
+bash cli/compose.sh --variant website --starter vanilla --mode full --target ~/my-site --yes
 rm -rf /tmp/_psk
 ```
 
@@ -45,7 +51,7 @@ rm -rf /tmp/_psk
 ```bash
 git clone -b dev https://github.com/jdeworks/project-starter-kit.git
 cd project-starter-kit
-bash cli/compose.sh --variant website --mode full --target ~/my-site --yes
+bash cli/compose.sh --variant website --starter vanilla --mode full --target ~/my-site --yes
 ```
 
 **Migrate an existing project:**
@@ -61,9 +67,10 @@ rm -rf /tmp/_psk
 
 ## How it works
 
-The kit has three layers: **base** (shared quality infrastructure), **variant** (project-type
-guidance), and **CLI** (tooling to compose them). When you run `compose.sh`, it merges base +
-variant into your project without overwriting existing files.
+The kit has four layers: **base** (shared quality infrastructure), **variant** (project-type
+guidance), **starters** (working hello-world code per engine/framework), and **CLI** (tooling
+to compose them). When you run `compose.sh`, it merges base + variant + starter into your
+project without overwriting existing files.
 
 ```
 project-starter-kit/
@@ -116,8 +123,14 @@ project-starter-kit/
 │
 └── <variants>/                  # Project-type guidance (pick one)
     ├── AGENTS.md                # Extends base with variant-specific rules + docs
-    └── docs/                    # Variant-specific reference docs
-        └── stack-choice.md      # Framework comparison + mapping table
+    ├── docs/                    # Variant-specific reference docs
+    │   └── stack-choice.md      # Framework comparison + mapping table
+    └── starters/                # Working hello-world per engine/framework
+        ├── starters.json        # Manifest (CLI + LLM discovery)
+        └── <engine>/            # e.g. pixijs/, phaser/, hono/, expo/
+            ├── package.json     # Ready to npm install && npm run dev
+            ├── src/             # Working starter code
+            └── tests/           # At least 1 passing test
 ```
 
 ---
@@ -170,7 +183,7 @@ All commands support `--help`. Run `bash cli/help.sh` for the full list.
 | `bash cli/upgrade.sh` | Upgrade lean mode to full mode |
 | `bash cli/status.sh` | Show variant status, doc counts, self-hosting health |
 | `bash cli/validate.sh` | Verify all doc references exist, run hook smoke tests |
-| `bash cli/test.sh` | Run 20 CLI integration tests |
+| `bash cli/test.sh` | Run 26 CLI integration tests |
 | `bash cli/bundle.sh` | Generate `bundle.xml` for online AI agents (ChatGPT, Gemini) |
 | `bash cli/help.sh` | Show all commands, variants, and examples |
 
@@ -179,6 +192,7 @@ All commands support `--help`. Run `bash cli/help.sh` for the full list.
 - `--dry-run` — preview what would happen without writing files (compose, migrate)
 - `--yes`, `-y` — skip confirmation prompt (compose)
 - `--variant <name>` — which variant to use
+- `--starter <id>` — which starter template (e.g. pixijs, hono, expo)
 - `--mode full|lean` — enforcement level
 
 ---
@@ -198,28 +212,25 @@ All commands support `--help`. Run `bash cli/help.sh` for the full list.
 
 ## What you get after composing
 
-After running `compose.sh` or `init.sh`, your project has:
+After running `compose.sh` or `init.sh` with a starter, your project has:
 
 ```
 your-project/
 ├── AGENTS.md              # Your agent reads this first
 ├── CLAUDE.md              # Redirects to AGENTS.md
 ├── CHANGES.md             # You append to this at session end
-├── SESSION_SUMMARY.md     # Auto-populated by hooks between sessions
-├── HOOKS.md               # Manual checklist (for agents without hooks)
 ├── Makefile               # make check, make test, make health, make dev
+├── package.json           # From starter — ready to npm install
+├── src/                   # From starter — working hello world
+├── tests/                 # From starter — at least 1 passing test
 ├── .claude/               # Claude Code hooks + settings
-├── .opencode/             # OpenCode hooks + commands
-├── .cursor/               # Cursor rules
-├── .windsurf/             # Windsurf rules
-├── .github/               # Copilot instructions
 ├── scripts/               # health-check.sh, analyze-changes.sh
 ├── docs/                  # Base docs + variant docs (merged)
 │   ├── code-health.md
 │   ├── testing.md
 │   ├── stack-choice.md    # From your variant
 │   └── ...
-└── src/                   # Your code goes here
+└── ...                    # Agent configs, session files, etc.
 ```
 
 **Key commands:**

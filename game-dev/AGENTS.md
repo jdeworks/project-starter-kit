@@ -16,38 +16,18 @@ use Phaser as a concrete starting point — adapt them to your engine.
 
 ---
 
-## Quick start (example: Phaser 3 + Vite)
+## Quick start
 
-```bash
-npm create vite@latest my-game -- --template vanilla-ts
-cd my-game
-npm install phaser
-npm run dev
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-<details>
-<summary>Other engines</summary>
+- `pixijs` — PixiJS lightweight 2D WebGL renderer
+- `phaser` — Phaser 3 full 2D game framework with physics, input, audio, tilemaps
+- `threejs` — Three.js 3D rendering library
+- `babylonjs` — Babylon.js batteries-included 3D engine with physics, GUI, WebXR
 
-**PixiJS (2D rendering):**
-```bash
-npm create vite@latest my-game -- --template vanilla-ts
-cd my-game && npm install pixi.js
-```
-
-**Three.js (3D):**
-```bash
-npm create vite@latest my-game -- --template vanilla-ts
-cd my-game && npm install three @types/three
-```
-
-**Babylon.js (3D, full engine):**
-```bash
-npm create vite@latest my-game -- --template vanilla-ts
-cd my-game && npm install @babylonjs/core
-```
+Then: `npm install && npm run dev`
 
 See `docs/stack-choice.md` for a full comparison.
-</details>
 
 ---
 

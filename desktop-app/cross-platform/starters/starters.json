@@ -1,0 +1,18 @@
+{
+  "variant": "desktop-app/cross-platform",
+  "prompt": "Which desktop framework?",
+  "starters": [
+    {
+      "id": "tauri",
+      "name": "Tauri 2",
+      "description": "Lightweight desktop app — web frontend + Rust backend, ~5 MB binary",
+      "stack": "node"
+    },
+    {
+      "id": "electron",
+      "name": "Electron",
+      "description": "Desktop app with Chromium — Node.js backend, mature ecosystem",
+      "stack": "node"
+    }
+  ]
+}

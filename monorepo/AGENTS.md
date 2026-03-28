@@ -15,33 +15,15 @@ concrete starting point — adapt them to your tooling.
 
 ---
 
-## Quick start (example: Turborepo)
+## Quick start
 
-```bash
-npx create-turbo@latest my-monorepo
-cd my-monorepo
-npm install
-npm run dev
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-<details>
-<summary>Other tools</summary>
+- `turborepo` — Fast, convention-based monorepo with shared packages
 
-**Nx:**
-```bash
-npx create-nx-workspace my-monorepo --preset=ts
-cd my-monorepo && npx nx serve
-```
-
-**pnpm workspaces (no orchestrator):**
-```bash
-mkdir my-monorepo && cd my-monorepo
-pnpm init && mkdir packages apps
-# Add "packages": ["packages/*", "apps/*"] to package.json workspaces
-```
+Then: `npm install && npm run dev`
 
 See `docs/stack-choice.md` for a full comparison.
-</details>
 
 ---
 

@@ -15,34 +15,15 @@ of a web view.
 
 ---
 
-## Quick start (example: .NET MAUI)
+## Quick start
 
-```bash
-dotnet new maui -n MyApp
-cd MyApp
-dotnet build
-dotnet run
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-<details>
-<summary>Other stacks</summary>
+- `dotnet-maui` — .NET MAUI cross-platform native app with C# and XAML
 
-**WPF (Windows only):**
-```bash
-dotnet new wpf -n MyApp
-cd MyApp && dotnet run
-```
-
-**WinUI 3 (Windows only):**
-```bash
-dotnet new winui3 -n MyApp
-```
-
-**SwiftUI (macOS only):**
-Open Xcode → New Project → macOS App → SwiftUI
+Then: `dotnet build && dotnet run`
 
 See `docs/stack-choice.md` for a full comparison.
-</details>
 
 ---
 

@@ -15,39 +15,16 @@ Commander as a concrete starting point — adapt them to your stack.
 
 ---
 
-## Quick start (example: Node.js + Commander)
+## Quick start
 
-```bash
-mkdir my-cli && cd my-cli
-npm init -y
-npm install commander chalk
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-<details>
-<summary>Other stacks</summary>
+- `commander` — TypeScript CLI with Commander.js, argument parsing, help, subcommands
+- `click` — Python CLI with Click, decorators, groups, auto-help
 
-**Go + Cobra:**
-```bash
-mkdir my-cli && cd my-cli
-go mod init my-cli
-go get github.com/spf13/cobra/cobra@latest
-```
-
-**Rust + clap:**
-```bash
-cargo new my-cli
-cd my-cli
-cargo add clap --features derive
-```
-
-**Python + Click:**
-```bash
-mkdir my-cli && cd my-cli
-pip install click
-```
+Then: `npm install` (or `pip install -r requirements.txt` for Python starters)
 
 See `docs/stack-choice.md` for a full comparison.
-</details>
 
 ---
 

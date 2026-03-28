@@ -7,6 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 KIT_ROOT="$(dirname "$SCRIPT_DIR")"
 
 VARIANT=""
+STARTER=""
 MODE="full"
 NAME=""
 PARENT_DIR="$(pwd)"
@@ -21,6 +22,7 @@ Creates a new project directory with git init and composes the kit into it.
 
 Options:
   --variant <name>   Variant to use (required). See bash cli/help.sh for list.
+  --starter <id>     Starter template (e.g. pixijs, hono). See starters.json per variant.
   --name <name>      Project name / directory name (required)
   --mode <mode>      full or lean (default: full)
   --parent <path>    Parent directory (default: current directory)
@@ -31,7 +33,8 @@ HELPEOF
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    --variant) VARIANT="$2"; shift 2 ;;
+    --variant) VARIANT="$2";  shift 2 ;;
+    --starter) STARTER="$2"; shift 2 ;;
     --mode)    MODE="$2";    shift 2 ;;
     --name)    NAME="$2";    shift 2 ;;
     --parent)  PARENT_DIR="$2"; shift 2 ;;
@@ -100,7 +103,9 @@ read -r -p "Create project? [y/N] " confirm
 mkdir -p "$TARGET"
 git init "$TARGET" -b dev
 
-bash "$SCRIPT_DIR/compose.sh" --variant "$VARIANT" --mode "$MODE" --target "$TARGET" --yes
+COMPOSE_ARGS="--variant $VARIANT --mode $MODE --target $TARGET --yes"
+[ -n "$STARTER" ] && COMPOSE_ARGS="$COMPOSE_ARGS --starter $STARTER"
+bash "$SCRIPT_DIR/compose.sh" $COMPOSE_ARGS
 
 # Create initial .gitignore
 cat > "$TARGET/.gitignore" << 'EOF'

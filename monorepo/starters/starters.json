@@ -1,0 +1,12 @@
+{
+  "variant": "monorepo",
+  "prompt": "Which monorepo tool?",
+  "starters": [
+    {
+      "id": "turborepo",
+      "name": "Turborepo",
+      "description": "Fast, convention-based monorepo with shared packages",
+      "stack": "node"
+    }
+  ]
+}

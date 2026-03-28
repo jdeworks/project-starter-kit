@@ -1,0 +1,12 @@
+{
+  "variant": "mcp-server",
+  "prompt": "Which MCP SDK?",
+  "starters": [
+    {
+      "id": "typescript",
+      "name": "TypeScript MCP SDK",
+      "description": "MCP server with TypeScript SDK, Zod validation, stdio transport",
+      "stack": "node"
+    }
+  ]
+}

@@ -16,26 +16,15 @@ The example commands use the TypeScript MCP SDK. Python SDK is also officially s
 
 ---
 
-## Quick start (example: TypeScript MCP SDK)
+## Quick start
 
-```bash
-mkdir my-mcp-server && cd my-mcp-server
-npm init -y
-npm install @modelcontextprotocol/sdk zod
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-<details>
-<summary>Other stacks</summary>
+- `typescript` — MCP server with TypeScript SDK, Zod validation, stdio transport
 
-**Python:**
-```bash
-pip install mcp
-```
+Then: `npm install`
 
-**Go / Rust / other:**
-Implement the JSON-RPC protocol directly or use a community SDK.
-See `docs/stack-choice.md` for available SDKs.
-</details>
+See `docs/stack-choice.md` for other SDK options.
 
 ---
 

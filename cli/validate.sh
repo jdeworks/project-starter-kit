@@ -10,13 +10,9 @@ if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
   cat << 'HELPEOF'
 Usage: bash cli/validate.sh [--hooks]
 
-Validates the starter kit itself:
-  - Checks all variant AGENTS.md doc table references point to existing files
-  - With --hooks: runs each hook script in a temp directory to verify no errors
+Validates the starter kit: doc references, starters.json manifests, orphaned docs.
 
-Options:
-  --hooks     Also run hook smoke tests
-  --help, -h  Show this help
+Options:  --hooks  Run hook smoke tests.  --help|-h  This help.
 HELPEOF
   exit 0
 fi
@@ -79,6 +75,26 @@ done < <(grep '| `docs/' "$base_agents" 2>/dev/null || true)
 if [ "$ERRORS" -eq 0 ]; then
   echo "  All doc references valid."
 fi
+
+# ── Validate starters.json manifests ─────────────────────────────────────────
+echo ""
+echo "==> Checking starters.json manifests..."
+for v in $VALID_VARIANTS; do
+  sjson="$KIT_ROOT/$v/starters/starters.json"
+  [ -f "$sjson" ] || continue
+  # Extract starter ids and check directories exist
+  while IFS= read -r sid; do
+    sdir="$KIT_ROOT/$v/starters/$sid"
+    if [ ! -d "$sdir" ]; then
+      echo "  ERROR: $v/starters/starters.json lists '$sid' but directory missing"
+      ERRORS=$((ERRORS + 1))
+    elif [ ! -f "$sdir/README.md" ]; then
+      echo "  WARN: $v/starters/$sid/ has no README.md"
+      WARNINGS=$((WARNINGS + 1))
+    fi
+  done < <(sed -n 's/.*"id"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p' "$sjson")
+done
+echo "  Starter manifests checked."
 
 # ── Check for orphaned docs ──────────────────────────────────────────────────
 echo ""

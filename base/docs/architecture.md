@@ -2,15 +2,17 @@
 
 This doc explains the layering system for contributors.
 
-## Three layers
+## Four layers
 
 ```
 ┌─────────────────────────────────────┐
-│  Your project code (src/, etc.)     │  ← You write this
+│  Your project code                  │  ← You write this
 ├─────────────────────────────────────┤
-│  Variant layer (website/, saas/...) │  ← Project-type guidance
+│  Starter (pixijs/, hono/, expo/...) │  ← Working hello-world code
 ├─────────────────────────────────────┤
-│  Base layer (base/)                 │  ← Universal quality layer
+│  Variant (website/, saas/...)       │  ← Project-type rules + docs
+├─────────────────────────────────────┤
+│  Base (base/)                       │  ← Universal quality layer
 └─────────────────────────────────────┘
 ```
 
@@ -40,16 +42,27 @@ Variant files are **merged on top of base** by `cli/compose.sh`. Variant AGENTS.
 replaces the base AGENTS.md (it contains the base's `<!-- FILL IN -->` sections
 completed with variant-specific content).
 
+### Starter layer (`<variant>/starters/<engine>/`)
+
+Working hello-world code for a specific engine or framework. Each starter:
+- Runs immediately after install + dev command
+- Has at least 1 passing test
+- Follows kit principles (small files, separation of concerns)
+- Includes package.json/pyproject.toml with scripts mapping to Makefile targets
+
+Starters are discovered via `<variant>/starters/starters.json` — a manifest read by both
+the CLI (interactive picker) and LLM agents (JSON parsing).
+
 ### Your project
 
-After composing, you fill in project-specific sections (overview, tech stack, paths)
-and start building. The kit provides the quality layer; you provide the code.
+After composing, you have a running project with quality infrastructure. Fill in the
+project overview in AGENTS.md and start building on top of the starter code.
 
 ## CLI flow
 
 ```
 cli/init.sh      → creates dir + git init + calls compose.sh
-cli/compose.sh   → copies base/ + variant/ into target, sets mode
+cli/compose.sh   → copies base/ + variant/ + starter/ into target, sets mode
 cli/migrate.sh   → analyzes existing repo, writes MIGRATION.md
 cli/upgrade.sh   → switches lean → full mode
 cli/status.sh    → shows kit health

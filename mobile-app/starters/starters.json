@@ -1,0 +1,12 @@
+{
+  "variant": "mobile-app",
+  "prompt": "Which mobile framework?",
+  "starters": [
+    {
+      "id": "expo",
+      "name": "React Native + Expo",
+      "description": "Cross-platform mobile app with Expo, TypeScript, and navigation",
+      "stack": "node"
+    }
+  ]
+}

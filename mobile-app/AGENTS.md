@@ -14,21 +14,13 @@ React Native + Expo as a concrete starting point — adapt them to your stack.
 
 ---
 
-## Quick start (React Native + Expo)
+## Quick start
 
-```bash
-npx create-expo-app@latest my-app --template blank-typescript
-cd my-app
-npm install
-npx expo start
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-For EAS (cloud builds, OTA updates — no Xcode/Android Studio required locally):
-```bash
-npm install -g eas-cli
-eas login
-eas build:configure
-```
+- `expo` — React Native + Expo cross-platform mobile app with TypeScript and navigation
+
+Then: `npm install && npx expo start`
 
 ---
 

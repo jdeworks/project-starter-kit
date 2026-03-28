@@ -1,0 +1,18 @@
+{
+  "variant": "saas",
+  "prompt": "Which full-stack framework?",
+  "starters": [
+    {
+      "id": "nextjs",
+      "name": "Next.js",
+      "description": "React full-stack with App Router, SSR, and API routes",
+      "stack": "node"
+    },
+    {
+      "id": "sveltekit",
+      "name": "SvelteKit",
+      "description": "Svelte full-stack with server-side rendering and form actions",
+      "stack": "node"
+    }
+  ]
+}

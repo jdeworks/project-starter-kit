@@ -1,24 +1,33 @@
 # CHANGES.md
 
-Append-only log of all agent sessions. Written by the agent at session end (full mode)
-or whenever symbols are removed (any mode). Used by PreCompact hook to detect dead code
-and generate SESSION_SUMMARY.md.
+Session log with start/end tracking. Every session creates a **started** entry at the
+beginning and a **completed** entry at the end. If a session is interrupted, the next
+session sees the orphaned "started" entry and can pick up where it left off.
 
-**Format — copy this block for each entry:**
+**Start entry (write when you begin work):**
 ```
-## [YYYY-MM-DD] session-<id> | mode: full|lean | type: add|remove|refactor|fix|chore
+## [YYYY-MM-DDTHH:MM] session-<id> | status: started | mode: full|lean | type: add|fix|refactor|chore
+intent: One line describing what this session will do
+```
+
+**End entry (write when work is done):**
+```
+## [YYYY-MM-DDTHH:MM] session-<id> | status: completed | mode: full|lean | type: add|fix|refactor|chore
 files_touched: path/to/file.ts, path/to/other.ts
-symbols_added: FunctionName, ClassName, CONSTANT_NAME
+symbols_added: FunctionName, ClassName
 symbols_removed: OldFunction, DeprecatedClass
-reason: One-line explanation. Note any symbols that are now dead code.
+tests_added: path/to/test.ts
+reason: One sentence. Note whether removed symbols were cleaned up or left for later.
 health_snapshot: LOC=<n>, tests=<n>, complexity=ok|warn|fail
 ```
 
 **Rules:**
-- `symbols_removed` is mandatory whenever code is deleted — this is how dead code is tracked.
-- If `symbols_removed` is non-empty, note in `reason` whether it was cleaned up or left for later.
-- Keep `reason` to one line. Detail belongs in commit messages, not here.
+- Write the **started** entry first — before doing any work.
+- Write the **completed** entry when you finish — `symbols_removed` is mandatory if you deleted code.
+- Use the same `session-<id>` for both start and end entries.
+- `tests_added` is required for `type: fix` — every fix needs a regression test.
 - Do not edit past entries. Append only.
+- See `docs/changelog-protocol.md` for full details.
 
 ---
 <!-- Entries below — newest at bottom -->

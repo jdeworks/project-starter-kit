@@ -54,7 +54,7 @@ Read these when the situation calls for it. Do not load all of them upfront.
 
 1. **No feature is done without tests.** At minimum: one passing test per exported function.
 2. **Run `make check` before declaring work complete.** Fix all failures before stopping.
-3. **Append to CHANGES.md at session end** (full mode) or when removing symbols (any mode).
+3. **CHANGES.md start/end tracking.** Write a "started" entry when you begin work. Write a "completed" entry when done. In full mode, the stop hook blocks until you complete it. See `docs/changelog-protocol.md`.
 4. **Never leave `console.log` in production files.** Use a logger or remove before committing.
 5. **Read the relevant doc before starting unfamiliar work** — don't guess at conventions.
 6. **Every fix gets a regression test.** When you fix a bug, add a test that would have caught it. Log it in CHANGES.md with `tests_added`.
@@ -66,7 +66,7 @@ Read these when the situation calls for it. Do not load all of them upfront.
 Hooks run automatically via `.claude/settings.json`:
 - After every file edit: health check warning + auto-format
 - Before context compact: changelog analysis + session summary written
-- On session start: last session summary + pending dead code flags injected
+- On session start: session summary + abandoned session detection + CHANGES.md prompt
 - On stop: prompt to write CHANGES.md entry
 
 ---

@@ -7,8 +7,17 @@ Browser-native 2D and 3D games running in the browser.
 ## Get started
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) game-dev my-game
+# Navigate to your project folder, then:
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) game-dev
 ```
+
+The CLI will prompt you to pick a starter. To skip the prompt:
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) game-dev --starter pixijs
+```
+
+**Available starters:** `pixijs` (PixiJS), `phaser` (Phaser 3), `threejs` (Three.js), `babylonjs` (Babylon.js)
 
 <details>
 <summary>Manual setup</summary>
@@ -17,8 +26,8 @@ bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/d
 git clone --filter=blob:none --no-checkout --depth=1 -b dev \
   https://github.com/jdeworks/project-starter-kit.git /tmp/_psk
 cd /tmp/_psk && git sparse-checkout init --cone
-git sparse-checkout set base game-dev cli && git checkout dev
-bash cli/compose.sh --variant game-dev --mode full --target ~/my-game --yes
+git sparse-checkout set base game-dev/AGENTS.md game-dev/docs game-dev/starters/pixijs cli && git checkout dev
+bash cli/compose.sh --variant game-dev --starter pixijs --target ~/my-game --yes
 rm -rf /tmp/_psk && cd ~/my-game
 ```
 
@@ -30,6 +39,9 @@ rm -rf /tmp/_psk && cd ~/my-game
 my-game/
 ├── AGENTS.md
 ├── Makefile
+├── package.json           # From starter — dependencies pre-configured
+├── src/                   # From starter — game entry point and scaffolding
+├── tests/                 # From starter — test setup
 ├── docs/
 │   ├── game-architecture.md   # Scenes, entities, systems, ECS
 │   ├── asset-management.md    # Loading, organizing, optimizing assets

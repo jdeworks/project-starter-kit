@@ -7,8 +7,17 @@ Backend API development — REST or GraphQL — without a frontend.
 ## Get started
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) api-service my-api
+# Navigate to your project folder, then:
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) api-service
 ```
+
+The CLI will prompt you to pick a starter. To skip the prompt:
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) api-service --starter hono
+```
+
+**Available starters:** `hono` (Hono), `express` (Express), `fastapi` (FastAPI)
 
 <details>
 <summary>Manual setup</summary>
@@ -17,8 +26,8 @@ bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/d
 git clone --filter=blob:none --no-checkout --depth=1 -b dev \
   https://github.com/jdeworks/project-starter-kit.git /tmp/_psk
 cd /tmp/_psk && git sparse-checkout init --cone
-git sparse-checkout set base api-service cli && git checkout dev
-bash cli/compose.sh --variant api-service --mode full --target ~/my-api --yes
+git sparse-checkout set base api-service/AGENTS.md api-service/docs api-service/starters/hono cli && git checkout dev
+bash cli/compose.sh --variant api-service --starter hono --target ~/my-api --yes
 rm -rf /tmp/_psk && cd ~/my-api
 ```
 
@@ -30,6 +39,9 @@ rm -rf /tmp/_psk && cd ~/my-api
 my-api/
 ├── AGENTS.md            # Tell your AI agent to read this first
 ├── Makefile             # make dev, make check, make test, make health
+├── package.json         # From starter — dependencies pre-configured
+├── src/                 # From starter — API entry point and scaffolding
+├── tests/               # From starter — test setup
 ├── docs/
 │   ├── api-design.md       # REST conventions, status codes, response shapes
 │   ├── database.md         # ORM, migrations, schema conventions

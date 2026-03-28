@@ -18,7 +18,7 @@ cat >&2 << 'EOF'
 
 --- PreCompact reminder ---
 Before this context is compressed, please:
-1. Ensure CHANGES.md has an entry for this session (if in full mode)
+1. Ensure your CHANGES.md session has a "completed" entry (if in full mode)
 2. Fill in the "Next steps" section of SESSION_SUMMARY.md
 3. Note any unresolved questions or in-progress work
 ---

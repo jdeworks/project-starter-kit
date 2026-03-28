@@ -7,8 +7,17 @@ Model Context Protocol servers — tools and resources that AI agents can discov
 ## Get started
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) mcp-server my-mcp
+# Navigate to your project folder, then:
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) mcp-server
 ```
+
+The CLI will prompt you to pick a starter. To skip the prompt:
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) mcp-server --starter typescript
+```
+
+**Available starters:** `typescript` (TypeScript MCP SDK)
 
 <details>
 <summary>Manual setup</summary>
@@ -17,8 +26,8 @@ bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/d
 git clone --filter=blob:none --no-checkout --depth=1 -b dev \
   https://github.com/jdeworks/project-starter-kit.git /tmp/_psk
 cd /tmp/_psk && git sparse-checkout init --cone
-git sparse-checkout set base mcp-server cli && git checkout dev
-bash cli/compose.sh --variant mcp-server --mode full --target ~/my-mcp --yes
+git sparse-checkout set base mcp-server/AGENTS.md mcp-server/docs mcp-server/starters/typescript cli && git checkout dev
+bash cli/compose.sh --variant mcp-server --starter typescript --target ~/my-mcp --yes
 rm -rf /tmp/_psk && cd ~/my-mcp
 ```
 
@@ -30,6 +39,9 @@ rm -rf /tmp/_psk && cd ~/my-mcp
 my-mcp/
 ├── AGENTS.md
 ├── Makefile
+├── package.json         # From starter — dependencies pre-configured
+├── src/                 # From starter — MCP server entry point and tools
+├── tests/               # From starter — test setup
 ├── docs/
 │   ├── mcp-concepts.md     # Tools, resources, prompts, transports
 │   ├── tool-design.md      # Naming, descriptions, input schemas, returns

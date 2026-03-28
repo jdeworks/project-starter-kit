@@ -1,0 +1,30 @@
+{
+  "variant": "game-dev",
+  "prompt": "Which game engine?",
+  "starters": [
+    {
+      "id": "pixijs",
+      "name": "PixiJS",
+      "description": "Lightweight 2D WebGL renderer — max control, no framework overhead",
+      "stack": "node"
+    },
+    {
+      "id": "phaser",
+      "name": "Phaser 3",
+      "description": "Full 2D game framework with physics, input, audio, tilemaps",
+      "stack": "node"
+    },
+    {
+      "id": "threejs",
+      "name": "Three.js",
+      "description": "3D rendering library — bring your own game logic and physics",
+      "stack": "node"
+    },
+    {
+      "id": "babylonjs",
+      "name": "Babylon.js",
+      "description": "Batteries-included 3D engine with physics, GUI, WebXR",
+      "stack": "node"
+    }
+  ]
+}

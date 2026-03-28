@@ -16,37 +16,17 @@ as a concrete starting point — adapt them to your stack.
 
 ---
 
-## Quick start (example: Node.js + Hono)
+## Quick start
 
-```bash
-npm create hono@latest my-api -- --template nodejs
-cd my-api
-npm install
-npm run dev
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-<details>
-<summary>Other stacks</summary>
+- `hono` — Ultrafast TypeScript API framework, edge-runtime ready
+- `express` — Mature Node.js API framework with the largest ecosystem
+- `fastapi` — Python async API with automatic OpenAPI docs
 
-**Go:**
-```bash
-mkdir my-api && cd my-api && go mod init my-api
-# use net/http, Chi, or Echo
-```
-
-**Python + FastAPI:**
-```bash
-pip install fastapi uvicorn
-uvicorn main:app --reload
-```
-
-**C# / .NET:**
-```bash
-dotnet new webapi -n MyApi && cd MyApi && dotnet run
-```
+Then: `npm install && npm run dev` (or `pip install -r requirements.txt` for Python starters)
 
 See `docs/stack-choice.md` for a full comparison.
-</details>
 
 ---
 

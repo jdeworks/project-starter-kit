@@ -11,15 +11,15 @@ cat << 'EOF'
 project-starter-kit — AI-agent quality layer for any project type
 =================================================================
 
-Quick start (run from anywhere):
+Quick start (navigate to your project folder, then):
 
-  bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) <variant> <name>
+  bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh)
 
 Commands (run from inside the kit repo):
 
   bash cli/get.sh        One-command setup: download + compose (no git history)
   bash cli/init.sh       Create a new project (git init + compose)
-  bash cli/compose.sh    Copy base + variant into an existing repo
+  bash cli/compose.sh    Copy base + variant + starter into a directory
   bash cli/migrate.sh    Analyze existing repo and generate migration guide
   bash cli/upgrade.sh    Upgrade lean mode to full mode
   bash cli/status.sh     Show kit status and variant details
@@ -49,20 +49,20 @@ Modes:
 
 Examples:
 
-  # Quickest way — one command, no clone needed
-  bash <(curl -sL .../cli/get.sh) website my-site
+  # Quickest way — interactive, picks variant + starter
+  bash <(curl -sL .../cli/get.sh)
+
+  # With variant + starter specified
+  bash <(curl -sL .../cli/get.sh) game-dev --starter pixijs
 
   # New project (from inside the kit repo)
-  bash cli/init.sh --variant website --mode full --name my-site
+  bash cli/init.sh --variant website --starter vanilla --mode full --name my-site
 
   # Existing repo
-  bash cli/compose.sh --variant api-service --mode lean --target /path/to/repo
-
-  # Migrate existing project
-  bash cli/migrate.sh --variant saas --target /path/to/repo
+  bash cli/compose.sh --variant api-service --starter hono --mode lean --target /path/to/repo
 
   # Preview without writing
-  bash cli/compose.sh --variant website --mode full --target ./my-site --dry-run
+  bash cli/compose.sh --variant website --starter react --target ./my-site --dry-run
 
 For more info: https://github.com/jdeworks/project-starter-kit
 EOF

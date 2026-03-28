@@ -7,8 +7,17 @@ iOS + Android apps from a single codebase.
 ## Get started
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) mobile-app my-app
+# Navigate to your project folder, then:
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) mobile-app
 ```
+
+The CLI will prompt you to pick a starter. To skip the prompt:
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) mobile-app --starter expo
+```
+
+**Available starters:** `expo` (React Native + Expo)
 
 <details>
 <summary>Manual setup</summary>
@@ -17,8 +26,8 @@ bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/d
 git clone --filter=blob:none --no-checkout --depth=1 -b dev \
   https://github.com/jdeworks/project-starter-kit.git /tmp/_psk
 cd /tmp/_psk && git sparse-checkout init --cone
-git sparse-checkout set base mobile-app cli && git checkout dev
-bash cli/compose.sh --variant mobile-app --mode full --target ~/my-app --yes
+git sparse-checkout set base mobile-app/AGENTS.md mobile-app/docs mobile-app/starters/expo cli && git checkout dev
+bash cli/compose.sh --variant mobile-app --starter expo --target ~/my-app --yes
 rm -rf /tmp/_psk && cd ~/my-app
 ```
 
@@ -30,6 +39,9 @@ rm -rf /tmp/_psk && cd ~/my-app
 my-app/
 ├── AGENTS.md
 ├── Makefile
+├── package.json               # From starter — dependencies pre-configured
+├── src/                       # From starter — app entry point and screens
+├── tests/                     # From starter — test setup
 ├── docs/
 │   ├── rn-expo-setup.md          # Project setup, EAS, TypeScript
 │   ├── mobile-testing.md         # Unit, component, integration, E2E

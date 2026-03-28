@@ -1,0 +1,18 @@
+{
+  "variant": "cli-tool",
+  "prompt": "Which CLI framework?",
+  "starters": [
+    {
+      "id": "commander",
+      "name": "Node.js + Commander",
+      "description": "TypeScript CLI with Commander.js — argument parsing, help, subcommands",
+      "stack": "node"
+    },
+    {
+      "id": "click",
+      "name": "Python + Click",
+      "description": "Python CLI with Click — decorators, groups, auto-help",
+      "stack": "python"
+    }
+  ]
+}

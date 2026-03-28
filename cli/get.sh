@@ -1,26 +1,22 @@
 #!/usr/bin/env bash
-# get.sh — one-command setup: clone sparse, compose, clean up
-# Usage: bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) website my-site
-# Or:    bash get.sh <variant> [project-name] [--mode full|lean]
+# get.sh — one-command setup: download kit, compose into current directory
+# Usage: bash <(curl -sL .../get.sh) [variant] [--starter id] [--mode full|lean]
 set -euo pipefail
 
-VARIANT="${1:-}"
-NAME="${2:-}"
-MODE="full"
+VARIANT="" STARTER="" MODE="full"
 REPO_URL="https://github.com/jdeworks/project-starter-kit.git"
 BRANCH="dev"
+VALID_VARIANTS="website saas api-service monorepo game-dev mcp-server cli-tool mobile-app desktop-app/cross-platform desktop-app/native"
 
 show_help() {
   cat << 'EOF'
-Usage: bash get.sh <variant> [project-name] [--mode full|lean]
+Usage: bash get.sh [variant] [--starter <id>] [--mode full|lean]
 
-Downloads the starter kit and sets up a new project with only the files you need.
-No git history, no extra variants — just a clean project directory.
+Run from the directory where you want your project. Downloads only what you need.
 
-Examples:
-  bash get.sh website my-site
-  bash get.sh api-service my-api --mode lean
-  bash get.sh saas my-saas
+  bash get.sh                          # interactive — pick variant + starter
+  bash get.sh game-dev --starter pixijs
+  bash get.sh api-service --mode lean
 
 Variants: website, api-service, saas, monorepo, cli-tool, mcp-server,
            mobile-app, game-dev, desktop-app/cross-platform, desktop-app/native
@@ -28,38 +24,40 @@ EOF
   exit 0
 }
 
-for arg in "$@"; do
-  case "$arg" in
+# ── Parse args ───────────────────────────────────────────────────────────────
+while [[ $# -gt 0 ]]; do
+  case "$1" in
     --help|-h) show_help ;;
-    --mode) shift; MODE="${1:-full}" ;;
-    --lean) MODE="lean" ;;
+    --starter) STARTER="$2"; shift 2 ;;
+    --mode)    MODE="$2";    shift 2 ;;
+    --lean)    MODE="lean";  shift ;;
+    -*) echo "Unknown flag: $1. Use --help."; exit 1 ;;
+    *) [ -z "$VARIANT" ] && VARIANT="$1" || { echo "Unexpected arg: $1"; exit 1; }; shift ;;
   esac
 done
 
+# ── Interactive variant selection ────────────────────────────────────────────
 if [ -z "$VARIANT" ]; then
-  echo "Usage: bash get.sh <variant> [project-name] [--mode full|lean]"
-  echo "Run with --help for more info."
-  exit 1
+  [ ! -t 0 ] && { echo "Usage: bash get.sh <variant> [--starter id] [--mode full|lean]"; exit 1; }
+  echo "" && echo "project-starter-kit" && echo "==================="
+  echo "Available variants:"; i=1
+  for v in $VALID_VARIANTS; do printf "  %2d) %s\n" "$i" "$v"; i=$((i+1)); done
+  echo "" && read -r -p "Pick a variant (number or name): " vi
+  if [[ "$vi" =~ ^[0-9]+$ ]]; then
+    VARIANT=$(echo "$VALID_VARIANTS" | tr ' ' '\n' | sed -n "${vi}p")
+  else VARIANT="$vi"; fi
 fi
 
-NAME="${NAME:-my-project}"
-TARGET="$(pwd)/$NAME"
-
-if [ -d "$TARGET" ]; then
-  echo "Error: directory '$TARGET' already exists."
-  exit 1
-fi
+TARGET="$(pwd)"
 
 # Check prerequisites
-if ! command -v git >/dev/null 2>&1; then
-  echo "Error: git is required. Install it first."
-  exit 1
-fi
+command -v git >/dev/null 2>&1 || { echo "Error: git is required."; exit 1; }
 
 echo ""
 echo "project-starter-kit"
 echo "==================="
 echo "  Variant : $VARIANT"
+[ -n "$STARTER" ] && echo "  Starter : $STARTER"
 echo "  Mode    : $MODE"
 echo "  Target  : $TARGET"
 echo ""
@@ -71,34 +69,48 @@ trap 'rm -rf "$TMPDIR"' EXIT
 echo "==> Downloading base + $VARIANT..."
 if ! git clone --filter=blob:none --no-checkout --depth=1 -b "$BRANCH" \
   "$REPO_URL" "$TMPDIR/kit" 2>&1 | tail -1; then
-  echo "Error: failed to clone repository. Check your network connection."
-  exit 1
+  echo "Error: failed to clone. Check your network and access."; exit 1
 fi
 
 cd "$TMPDIR/kit"
-if ! git sparse-checkout init --cone 2>&1; then
-  echo "Error: sparse-checkout failed. Requires git 2.25+."
-  exit 1
-fi
-git sparse-checkout set base "$VARIANT" cli
-git checkout "$BRANCH"
+git sparse-checkout init --cone 2>/dev/null || { echo "Error: requires git 2.25+."; exit 1; }
 
-# Verify files were actually downloaded
-if [ ! -f "cli/compose.sh" ]; then
-  echo "Error: download incomplete — cli/compose.sh not found."
-  exit 1
+# Phase 1: fetch variant docs + starters manifest (lightweight)
+git sparse-checkout set base "$VARIANT/AGENTS.md" "$VARIANT/docs" "$VARIANT/starters/starters.json" cli
+git checkout "$BRANCH" 2>/dev/null
+
+# ── Interactive starter selection (from manifest) ────────────────────────────
+source cli/_helpers.sh
+STARTERS_JSON="$VARIANT/starters/starters.json"
+if [ -z "$STARTER" ] && [ -f "$STARTERS_JSON" ] && [ -t 0 ]; then
+  echo ""
+  echo "$(get_starters_prompt "$STARTERS_JSON")"
+  list_starters "$STARTERS_JSON"
+  echo "" && read -r -p "Pick a starter (number or id): " si
+  if [[ "$si" =~ ^[0-9]+$ ]]; then
+    STARTER=$(get_starter_id "$STARTERS_JSON" "$si")
+  else STARTER="$si"; fi
 fi
+
+# Phase 2: fetch chosen starter files
+if [ -n "$STARTER" ]; then
+  echo "==> Downloading $STARTER starter..."
+  git sparse-checkout add "$VARIANT/starters/$STARTER"
+  git checkout "$BRANCH" 2>/dev/null
+fi
+
+# Verify download
+[ -f "cli/compose.sh" ] || { echo "Error: download incomplete."; exit 1; }
 
 # ── Compose into target ─────────────────────────────────────────────────────
 echo "==> Composing project..."
-mkdir -p "$TARGET"
-bash cli/compose.sh --variant "$VARIANT" --mode "$MODE" --target "$TARGET" --yes
+COMPOSE_ARGS="--variant $VARIANT --mode $MODE --target $TARGET --yes"
+[ -n "$STARTER" ] && COMPOSE_ARGS="$COMPOSE_ARGS --starter $STARTER"
+bash cli/compose.sh $COMPOSE_ARGS
 
 cd "$TARGET"
-
 echo ""
-echo "Done. Your project is at: $TARGET"
+echo "Done. Your project is ready in: $TARGET"
 echo ""
 echo "Next steps:"
-echo "  cd $NAME"
 echo "  Tell your agent: 'Read AGENTS.md and tell me what mode we're in'"

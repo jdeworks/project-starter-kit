@@ -49,6 +49,28 @@ grep -q "Default: \*\*full\*\*" "$TEST_DIR/AGENTS.md" && pass "Mode set to full"
 [ -f "$TEST_DIR/docs/stack-choice.md" ] && pass "Variant docs merged" || fail "Variant docs missing"
 echo ""
 
+# ── Test: compose.sh — with starter ─────────────────────────────────────────
+echo "--- Test: compose.sh (game-dev + pixijs starter) ---"
+TEST_DIR="$TMPDIR/test-starter"
+mkdir -p "$TEST_DIR"
+bash "$SCRIPT_DIR/compose.sh" --variant game-dev --starter pixijs --mode full --target "$TEST_DIR" --yes > /dev/null 2>&1
+
+[ -f "$TEST_DIR/package.json" ] && pass "Starter package.json copied" || fail "Starter package.json missing"
+[ -d "$TEST_DIR/src" ] && pass "Starter src/ copied" || fail "Starter src/ missing"
+[ -f "$TEST_DIR/AGENTS.md" ] && pass "Base AGENTS.md present with starter" || fail "AGENTS.md missing"
+[ ! -d "$TEST_DIR/starters" ] && pass "No starters/ dir in target" || fail "starters/ dir leaked to target"
+echo ""
+
+# ── Test: compose.sh — without starter (no starter files) ──────────────────
+echo "--- Test: compose.sh (website, no starter) ---"
+TEST_DIR="$TMPDIR/test-no-starter"
+mkdir -p "$TEST_DIR"
+bash "$SCRIPT_DIR/compose.sh" --variant website --mode full --target "$TEST_DIR" --yes > /dev/null 2>&1
+
+[ ! -f "$TEST_DIR/package.json" ] && pass "No package.json without starter" || fail "Unexpected package.json"
+[ ! -d "$TEST_DIR/starters" ] && pass "No starters/ dir without starter" || fail "starters/ dir leaked"
+echo ""
+
 # ── Test 2: compose.sh — lean mode ──────────────────────────────────────────
 echo "--- Test: compose.sh (api-service, lean) ---"
 TEST_DIR="$TMPDIR/test-lean"

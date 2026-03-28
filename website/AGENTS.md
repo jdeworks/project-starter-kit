@@ -15,44 +15,17 @@ Vite + vanilla JS as a concrete starting point — adapt them to your stack.
 
 ---
 
-## Quick start (example: Vite + vanilla JS)
+## Quick start
 
-```bash
-npm create vite@latest my-site -- --template vanilla
-cd my-site
-npm install
-npm run dev
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-<details>
-<summary>Other stacks</summary>
+- `vanilla` — Plain HTML/CSS/TypeScript with Vite, no framework
+- `astro` — Astro content-focused static site generator with island architecture
+- `react` — React SPA with TypeScript and Vite bundler
 
-**Astro (content-heavy sites, blogs):**
-```bash
-npm create astro@latest my-site
-cd my-site && npm run dev
-```
-
-**Next.js (React + SSR/SSG):**
-```bash
-npx create-next-app@latest my-site
-cd my-site && npm run dev
-```
-
-**Nuxt (Vue + SSR/SSG):**
-```bash
-npx nuxi@latest init my-site
-cd my-site && npm run dev
-```
-
-**SvelteKit:**
-```bash
-npx sv create my-site
-cd my-site && npm install && npm run dev
-```
+Then: `npm install && npm run dev`
 
 See `docs/stack-choice.md` for a full comparison.
-</details>
 
 ---
 

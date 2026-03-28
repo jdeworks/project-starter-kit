@@ -7,20 +7,31 @@ Static sites, server-rendered websites, blogs, portfolios, and landing pages.
 ## Get started
 
 ```bash
-# One command — copies only the files you need, no git history
-bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) website my-site
+# Navigate to your project folder, then:
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) website
 ```
 
-Or manually:
+The CLI will prompt you to pick a starter. To skip the prompt:
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/get.sh) website --starter vanilla
+```
+
+**Available starters:** `vanilla` (Vanilla + Vite), `astro` (Astro), `react` (React + Vite)
+
+<details>
+<summary>Manual setup</summary>
+
 ```bash
 git clone --filter=blob:none --no-checkout --depth=1 -b dev \
   https://github.com/jdeworks/project-starter-kit.git /tmp/_psk
 cd /tmp/_psk && git sparse-checkout init --cone
-git sparse-checkout set base website cli && git checkout dev
-bash cli/compose.sh --variant website --mode full --target ~/my-site --yes
-rm -rf /tmp/_psk
-cd ~/my-site
+git sparse-checkout set base website/AGENTS.md website/docs website/starters/vanilla cli && git checkout dev
+bash cli/compose.sh --variant website --starter vanilla --target ~/my-site --yes
+rm -rf /tmp/_psk && cd ~/my-site
 ```
+
+</details>
 
 ## What you get
 
@@ -28,6 +39,9 @@ cd ~/my-site
 my-site/
 ├── AGENTS.md            # Tell your AI agent to read this first
 ├── Makefile             # make dev, make check, make test, make health
+├── package.json         # From starter — dependencies pre-configured
+├── src/                 # From starter — site entry point and scaffolding
+├── tests/               # From starter — test setup
 ├── docs/
 │   ├── getting-started.md
 │   ├── stack-choice.md

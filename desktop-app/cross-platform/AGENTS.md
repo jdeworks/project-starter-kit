@@ -15,32 +15,16 @@ starting point — adapt them to your stack.
 
 ---
 
-## Quick start (example: Tauri 2)
+## Quick start
 
-```bash
-npm create tauri-app@latest my-app -- --template vanilla-ts
-cd my-app
-npm install
-npm run tauri dev
-```
+Pick a starter when composing your project — each gives you a working hello-world:
 
-<details>
-<summary>Other stacks</summary>
+- `tauri` — Tauri 2 lightweight desktop app with web frontend + Rust backend
+- `electron` — Electron desktop app with Chromium and Node.js backend
 
-**Electron:**
-```bash
-npm init electron-app@latest my-app -- --template=vite-typescript
-cd my-app && npm start
-```
-
-**Wails (Go + web frontend):**
-```bash
-wails init -n my-app -t vanilla-ts
-cd my-app && wails dev
-```
+Then: `npm install && npm run dev`
 
 See `docs/stack-choice.md` for a full comparison.
-</details>
 
 ---
 

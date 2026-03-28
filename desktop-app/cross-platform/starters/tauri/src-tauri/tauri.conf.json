@@ -1,0 +1,22 @@
+{
+  "$schema": "https://raw.githubusercontent.com/nicegui/tauri-apps-api/main/tooling/cli/schema.json",
+  "productName": "my-app",
+  "version": "0.1.0",
+  "identifier": "com.myapp.dev",
+  "build": {
+    "frontendDist": "../dist",
+    "devUrl": "http://localhost:1420",
+    "beforeDevCommand": "npx vite dev --port 1420",
+    "beforeBuildCommand": "npx vite build"
+  },
+  "app": {
+    "title": "My App",
+    "windows": [
+      {
+        "label": "main",
+        "width": 800,
+        "height": 600
+      }
+    ]
+  }
+}

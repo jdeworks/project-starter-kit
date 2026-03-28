@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Site</title>
+    <link rel="stylesheet" href="/styles/main.css" />
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav">
+        <a href="/" class="logo">My Site</a>
+        <ul class="nav-links">
+          <li><a href="#features">Features</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <h1>Welcome to My Site</h1>
+        <p>A minimal starter built with Vite and TypeScript.</p>
+        <div id="counter"></div>
+      </section>
+
+      <section id="features" class="features">
+        <div class="feature-card">
+          <h3>Fast</h3>
+          <p>Powered by Vite for instant hot module replacement.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Typed</h3>
+          <p>Full TypeScript support out of the box.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Tested</h3>
+          <p>Vitest included for fast, reliable tests.</p>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
