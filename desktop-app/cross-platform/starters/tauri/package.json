@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "npm run tauri dev",
-    "build": "npm run tauri build",
+    "build": "vite build",
+    "build:app": "npm run tauri build",
     "test": "vitest run",
     "format": "prettier --write .",
     "lint": "eslint .",
