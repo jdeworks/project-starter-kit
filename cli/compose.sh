@@ -101,7 +101,8 @@ fi
 
 # ── Copy layers (exclude kit-internal files, variant AGENTS.md replaces base) ─
 echo "==> Copying base layer..."
-copy_layer "$KIT_ROOT/base" "$TARGET" "stacks/*" "repomix.config.json" "README.md"
+copy_layer "$KIT_ROOT/base" "$TARGET" "stacks/*" "repomix.config.json" "README.md" \
+  "HOOKS.md" "CONTRIBUTING.md" "docs/architecture.md" "docs/bring-your-own-stack.md" "scripts/verify-changes.sh"
 
 echo "==> Copying $VARIANT variant..."
 copy_layer "$KIT_ROOT/$VARIANT" "$TARGET" "README.md" "starters/*"

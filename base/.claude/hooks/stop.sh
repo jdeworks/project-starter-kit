@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # stop.sh — runs when Claude Code finishes responding
-# Enforces CHANGES.md completion in full mode
+# Reminds about CHANGES.md completion via additionalContext
 # Triggered by: Stop
 set -uo pipefail
 
@@ -12,11 +12,14 @@ if [ -f "AGENTS.md" ] && grep -q 'Default: \*\*lean\*\*' AGENTS.md 2>/dev/null; 
   mode="lean"
 fi
 
+# Only check entries after the marker to skip template examples
+entries_section=$(sed -n '/<!-- Entries below/,$p' CHANGES.md 2>/dev/null || echo "")
+
 # Find the most recent "started" entry and check if it has a matching "completed"
-last_started_sid=$(grep 'status: started' CHANGES.md 2>/dev/null | tail -1 | sed -n 's/.*session-\([^ |]*\).*/\1/p')
+last_started_sid=$(echo "$entries_section" | grep 'status: started' | tail -1 | sed -n 's/.*session-\([^ |]*\).*/\1/p')
 
 if [ -n "$last_started_sid" ]; then
-  if grep -q "session-$last_started_sid | status: completed" CHANGES.md 2>/dev/null; then
+  if echo "$entries_section" | grep -q "session-$last_started_sid | status: completed" 2>/dev/null; then
     # Session properly completed — all good
     exit 0
   fi
@@ -24,9 +27,7 @@ fi
 
 # No completed entry for the current/last session
 if [ "$mode" = "full" ]; then
-  cat >&2 << EOF
-
---- CHANGES.md: session not completed ---
+  MSG="--- CHANGES.md: session not completed ---
 You have a started session without a completed entry.
 In full mode, you MUST append a completed entry to CHANGES.md before finishing.
 
@@ -40,17 +41,19 @@ reason: <one sentence>
 health_snapshot: LOC=<n>, tests=<n>, complexity=ok|warn|fail
 
 See docs/changelog-protocol.md for details.
----
-EOF
+---"
+
+  escaped=$(printf '%s' "$MSG" | python3 -c "import sys,json; sys.stdout.write(json.dumps(sys.stdin.read()))" 2>/dev/null || printf '"%s"' "$MSG")
+  printf '{"additionalContext": %s}\n' "$escaped"
   exit 1
 fi
 
 # Lean mode — just a gentle reminder
-cat >&2 << 'EOF'
-
---- Session end reminder (lean mode) ---
+MSG="--- Session end reminder (lean mode) ---
 Consider logging this session in CHANGES.md if you removed or renamed any symbols.
----
-EOF
+---"
+
+escaped=$(printf '%s' "$MSG" | python3 -c "import sys,json; sys.stdout.write(json.dumps(sys.stdin.read()))" 2>/dev/null || printf '"%s"' "$MSG")
+printf '{"additionalContext": %s}\n' "$escaped"
 
 exit 0

@@ -4,24 +4,25 @@
 # Triggered by: PreCompact
 set -uo pipefail
 
-echo "==> PreCompact: analyzing project state before compression..."
-
-# Run the changelog analyzer
+# Run the changelog analyzer (output goes to stdout for user visibility)
+analysis=""
 if [ -f "scripts/analyze-changes.sh" ]; then
-  bash scripts/analyze-changes.sh
+  analysis=$(bash scripts/analyze-changes.sh 2>&1) || true
 else
-  echo "Warning: scripts/analyze-changes.sh not found — skipping dead code analysis"
+  analysis="Warning: scripts/analyze-changes.sh not found — skipping dead code analysis"
 fi
 
-# Remind Claude to fill in next steps before compacting
-cat >&2 << 'EOF'
+# Build reminder for Claude via additionalContext
+REMINDER="$analysis
 
 --- PreCompact reminder ---
 Before this context is compressed, please:
-1. Ensure your CHANGES.md session has a "completed" entry (if in full mode)
-2. Fill in the "Next steps" section of SESSION_SUMMARY.md
+1. Ensure your CHANGES.md session has a completed entry (see AGENTS.md rule 3)
+2. Fill in the Next steps section of SESSION_SUMMARY.md
 3. Note any unresolved questions or in-progress work
----
-EOF
+---"
+
+escaped=$(printf '%s' "$REMINDER" | python3 -c "import sys,json; sys.stdout.write(json.dumps(sys.stdin.read()))" 2>/dev/null || printf '"%s"' "$REMINDER")
+printf '{"additionalContext": %s}\n' "$escaped"
 
 exit 0

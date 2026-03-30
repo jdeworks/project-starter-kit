@@ -253,6 +253,30 @@ to iron out the specifics, then bring the output back as a spec in `docs/feature
 
 ---
 
+## Showcases
+
+Projects built with the starter kit. Want yours listed? Open a PR.
+
+### Games
+
+| Project | Built with | Links |
+|---------|-----------|-------|
+| Noodle Jump — pasta-themed endless jumper | game-dev + PixiJS | [GitHub](https://github.com/jdeworks/noodle-jump) · [Play](https://jdeworks.github.io/noodle-jump/) |
+
+### Websites
+
+*Coming soon*
+
+### APIs & Services
+
+*Coming soon*
+
+### CLI Tools
+
+*Coming soon*
+
+---
+
 ## Roadmap
 
 See [ROADMAP.md](ROADMAP.md) for what's done, in progress, and planned.
