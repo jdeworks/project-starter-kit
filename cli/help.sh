@@ -35,8 +35,8 @@ echo "Available variants:"
 echo ""
 for v in $VALID_VARIANTS; do
   doc_count=0
-  if [ -d "$KIT_ROOT/$v/docs" ]; then
-    doc_count=$(find "$KIT_ROOT/$v/docs" -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
+  if [ -d "$KIT_ROOT/$v/.kit" ]; then
+    doc_count=$(find "$KIT_ROOT/$v/.kit" -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
   fi
   printf "  %-32s %s\n" "$v" "${doc_count} docs"
 done

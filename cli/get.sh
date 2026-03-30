@@ -75,8 +75,8 @@ fi
 cd "$TMPDIR/kit"
 git sparse-checkout init --cone 2>/dev/null || { echo "Error: requires git 2.25+."; exit 1; }
 
-# Phase 1: fetch variant docs + starters manifest (lightweight)
-git sparse-checkout set base "$VARIANT/AGENTS.md" "$VARIANT/docs" "$VARIANT/starters/starters.json" cli
+# Phase 1: fetch variant .kit/ docs + starters manifest (lightweight)
+git sparse-checkout set base "$VARIANT/AGENTS.md" "$VARIANT/.kit" "$VARIANT/starters/starters.json" cli
 git checkout "$BRANCH" 2>/dev/null
 
 # ── Interactive starter selection (from manifest) ────────────────────────────
