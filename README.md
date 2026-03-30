@@ -42,7 +42,7 @@ Each variant's README has the exact command — browse to any variant below and 
 git clone --filter=blob:none --no-checkout --depth=1 \
   -b dev https://github.com/jdeworks/project-starter-kit.git /tmp/_psk
 cd /tmp/_psk && git sparse-checkout init --cone
-git sparse-checkout set base website/AGENTS.md website/docs website/starters/vanilla cli && git checkout dev
+git sparse-checkout set base website/AGENTS.md website/.kit website/starters/vanilla cli && git checkout dev
 bash cli/compose.sh --variant website --starter vanilla --mode full --target ~/my-site --yes
 rm -rf /tmp/_psk
 ```
