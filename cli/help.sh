@@ -22,6 +22,7 @@ Commands (run from inside the kit repo):
   bash cli/compose.sh    Copy base + variant + starter into a directory
   bash cli/migrate.sh    Analyze existing repo and generate migration guide
   bash cli/upgrade.sh    Upgrade lean mode to full mode
+  bash cli/update.sh     Update starter-kit files to latest version
   bash cli/status.sh     Show kit status and variant details
   bash cli/validate.sh   Verify doc references and run hook smoke tests
   bash cli/test.sh       Run CLI integration tests

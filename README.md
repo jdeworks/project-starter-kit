@@ -169,6 +169,11 @@ Start lean, upgrade anytime:
 bash cli/upgrade.sh
 ```
 
+Update to the latest starter-kit version:
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/cli/update.sh)
+```
+
 ---
 
 ## CLI reference
@@ -181,6 +186,7 @@ All commands support `--help`. Run `bash cli/help.sh` for the full list.
 | `bash cli/compose.sh` | Copy base + variant into an existing directory |
 | `bash cli/migrate.sh` | Analyze an existing repo and generate a migration guide |
 | `bash cli/upgrade.sh` | Upgrade lean mode to full mode |
+| `bash cli/update.sh` | Update starter-kit infrastructure to latest version |
 | `bash cli/status.sh` | Show variant status, doc counts, self-hosting health |
 | `bash cli/validate.sh` | Verify all doc references exist, run hook smoke tests |
 | `bash cli/test.sh` | Run 26 CLI integration tests |
