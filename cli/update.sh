@@ -174,8 +174,9 @@ for dir in "${REPLACE_DIRS[@]}"; do
   done < <(find "$src_dir" -type f -print0 2>/dev/null)
 done
 
-# Replace settings.json (hook wiring)
+# Replace settings.json (hook wiring) and KIT_VERSION
 update_file "$KIT/base/.claude/settings.json" "$TARGET/.claude/settings.json" ".claude/settings.json"
+update_file "$KIT/base/.claude/KIT_VERSION" "$TARGET/.claude/KIT_VERSION" ".claude/KIT_VERSION"
 
 # ── Update .kit/ reference docs ─────────────────────────────────────────────
 echo "==> Updating .kit/ reference docs..."

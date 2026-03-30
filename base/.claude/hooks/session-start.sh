@@ -6,6 +6,38 @@ set -uo pipefail
 
 output=""
 
+# ── Self-check: verify hooks exist and kit version ───────────────────────────
+warnings=""
+
+# Check all hook scripts referenced in settings.json exist
+if [ -f ".claude/settings.json" ]; then
+  while IFS= read -r hook_path; do
+    if [ ! -f "$hook_path" ]; then
+      warnings+="  - Missing hook script: $hook_path\n"
+    fi
+  done < <(grep -o 'bash [^"]*\.sh' .claude/settings.json | sed 's/^bash //')
+fi
+
+# Check kit version and compare against remote
+kit_version=""
+if [ -f ".claude/KIT_VERSION" ]; then
+  kit_version=$(tr -d '[:space:]' < .claude/KIT_VERSION)
+else
+  warnings+="  - Missing .claude/KIT_VERSION — run update.sh to install\n"
+fi
+
+if [ -n "$kit_version" ]; then
+  remote_version=$(curl -sfL --max-time 2 \
+    "https://raw.githubusercontent.com/jdeworks/project-starter-kit/dev/base/.claude/KIT_VERSION" 2>/dev/null | tr -d '[:space:]' || echo "")
+  if [ -n "$remote_version" ] && [ "$remote_version" != "$kit_version" ]; then
+    warnings+="  - Kit update available: $kit_version -> $remote_version (run update.sh)\n"
+  fi
+fi
+
+if [ -n "$warnings" ]; then
+  output+="### Starter-kit warnings\n${warnings}\n"
+fi
+
 # Inject SESSION_SUMMARY if it has content beyond the template
 if [ -f "SESSION_SUMMARY.md" ]; then
   summary_lines=$(wc -l < SESSION_SUMMARY.md | tr -d ' ')
