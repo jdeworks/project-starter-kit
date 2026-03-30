@@ -68,10 +68,22 @@ ECS scales better than deep inheritance hierarchies. Libraries: bitECS, miniplex
 - Save/load game state by serializing the state object
 - Use events/signals for communication between systems, not direct references
 
-## Constants file ordering
+## Debug mode
 
-If constants reference other constants (e.g. `SPAWN_CHANCE = DEBUG_MODE ? 0.5 : 0.08`),
-declaration order matters. Put debug flags and base values at the very top, derived values below.
+Add a global `DEBUG_MODE` flag in your constants file. When enabled, it should make the
+game easier to test manually — faster spawns, higher drop rates, skippable timers,
+visible hitboxes, on-screen FPS/state overlays. This saves enormous time during
+development because you don't have to play through the full game to reach the state
+you're testing.
+
+```typescript
+export const DEBUG_MODE = false // flip to true during dev, never commit as true
+export const SPAWN_CHANCE = DEBUG_MODE ? 0.5 : 0.08
+export const INVINCIBLE = DEBUG_MODE // skip damage during testing
+```
+
+Keep `DEBUG_MODE` at the very top of the constants file — other constants that branch
+on it must be declared after it.
 
 ## Anti-exploit design for scoring
 
