@@ -143,7 +143,7 @@ Review the output. Fix hard failures before proceeding. Soft warnings can wait.
 
 ### Step 5 — Write the initial CHANGES.md entry
 Add a migration entry documenting the current state of the project so future sessions
-have a baseline. Use the format in \`docs/changelog-protocol.md\`.
+have a baseline. Use the format in \`.kit/changelog-protocol.md\`.
 
 ### Step 6 — Upgrade to full mode (when ready)
 \`\`\`bash

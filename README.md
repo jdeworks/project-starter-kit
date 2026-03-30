@@ -96,7 +96,7 @@ project-starter-kit/
 │   │   ├── python/              # Python
 │   │   ├── rust/                # Rust
 │   │   └── dotnet/              # C# / .NET
-│   └── docs/                    # Reference docs (read on demand, not upfront)
+│   └── .kit/                    # Reference docs (read on demand, not upfront)
 │       ├── code-health.md       # File size limits, complexity, dead code
 │       ├── testing.md           # Three-tier test strategy
 │       ├── llm-testing.md       # Testing LLM integrations
@@ -123,7 +123,7 @@ project-starter-kit/
 │
 └── <variants>/                  # Project-type guidance (pick one)
     ├── AGENTS.md                # Extends base with variant-specific rules + docs
-    ├── docs/                    # Variant-specific reference docs
+    ├── .kit/                    # Variant-specific reference docs
     │   └── stack-choice.md      # Framework comparison + mapping table
     └── starters/                # Working hello-world per engine/framework
         ├── starters.json        # Manifest (CLI + LLM discovery)
@@ -139,21 +139,21 @@ project-starter-kit/
 
 Each variant adds project-type-specific rules, docs, and framework guidance on top of the
 base layer. **Every variant is framework-agnostic** — the rules apply regardless of your stack.
-Example commands use a recommended framework; see each variant's `docs/stack-choice.md` for
+Example commands use a recommended framework; see each variant's `.kit/stack-choice.md` for
 alternatives.
 
 | Variant | What it's for | Example stack | Docs |
 |---------|--------------|---------------|------|
-| [`website`](website/) | Static site, SSR, blog, portfolio | Vite + vanilla JS | [10 docs](website/docs/) |
-| [`api-service`](api-service/) | Backend API (REST or GraphQL) | Node.js + Hono | [6 docs](api-service/docs/) |
-| [`saas`](saas/) | SaaS with auth, billing, multi-tenancy | Next.js + Stripe | [6 docs](saas/docs/) |
-| [`monorepo`](monorepo/) | Frontend + backend + shared packages | Turborepo | [5 docs](monorepo/docs/) |
-| [`cli-tool`](cli-tool/) | Command-line tool | Node.js + Commander | [5 docs](cli-tool/docs/) |
-| [`mcp-server`](mcp-server/) | Model Context Protocol server | TypeScript MCP SDK | [5 docs](mcp-server/docs/) |
-| [`mobile-app`](mobile-app/) | iOS + Android app | React Native + Expo | [7 docs](mobile-app/docs/) |
-| [`game-dev`](game-dev/) | Browser-native game | Phaser 3 | [5 docs](game-dev/docs/) |
-| [`desktop-app/cross-platform`](desktop-app/cross-platform/) | Desktop app (Win/Mac/Linux) | Tauri 2 | [5 docs](desktop-app/cross-platform/docs/) |
-| [`desktop-app/native`](desktop-app/native/) | Native desktop app | C# / .NET MAUI | [4 docs](desktop-app/native/docs/) |
+| [`website`](website/) | Static site, SSR, blog, portfolio | Vite + vanilla JS | [10 docs](website/.kit/) |
+| [`api-service`](api-service/) | Backend API (REST or GraphQL) | Node.js + Hono | [6 docs](api-service/.kit/) |
+| [`saas`](saas/) | SaaS with auth, billing, multi-tenancy | Next.js + Stripe | [6 docs](saas/.kit/) |
+| [`monorepo`](monorepo/) | Frontend + backend + shared packages | Turborepo | [5 docs](monorepo/.kit/) |
+| [`cli-tool`](cli-tool/) | Command-line tool | Node.js + Commander | [5 docs](cli-tool/.kit/) |
+| [`mcp-server`](mcp-server/) | Model Context Protocol server | TypeScript MCP SDK | [5 docs](mcp-server/.kit/) |
+| [`mobile-app`](mobile-app/) | iOS + Android app | React Native + Expo | [7 docs](mobile-app/.kit/) |
+| [`game-dev`](game-dev/) | Browser-native game | Phaser 3 | [5 docs](game-dev/.kit/) |
+| [`desktop-app/cross-platform`](desktop-app/cross-platform/) | Desktop app (Win/Mac/Linux) | Tauri 2 | [5 docs](desktop-app/cross-platform/.kit/) |
+| [`desktop-app/native`](desktop-app/native/) | Native desktop app | C# / .NET MAUI | [4 docs](desktop-app/native/.kit/) |
 
 ---
 
@@ -231,7 +231,7 @@ your-project/
 ├── tests/                 # From starter — at least 1 passing test
 ├── .claude/               # Claude Code hooks + settings
 ├── scripts/               # health-check.sh, analyze-changes.sh
-├── docs/                  # Base docs + variant docs (merged)
+├── .kit/                  # Base docs + variant docs (merged)
 │   ├── code-health.md
 │   ├── testing.md
 │   ├── stack-choice.md    # From your variant
@@ -254,8 +254,8 @@ make help       # List all targets
 
 [think-tank](https://github.com/jdeworks/think-tank) is a companion planning tool. When a
 feature is complex enough to need architecture decisions before implementation, use think-tank
-to iron out the specifics, then bring the output back as a spec in `docs/features/`. The
-`docs/research-planning.md` doc in every variant explains when and how to do this.
+to iron out the specifics, then bring the output back as a spec in `.kit/features/`. The
+`.kit/research-planning.md` doc in every variant explains when and how to do this.
 
 ---
 

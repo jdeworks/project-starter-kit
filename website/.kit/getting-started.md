@@ -77,22 +77,22 @@ This ensures later prompts know what was chosen without re-asking.
 Based on the project type, point to the right docs:
 
 **For all projects:**
-- `docs/stack-choice.md` — decide on a framework (or confirm vanilla is right)
-- `docs/project-structure.md` — organize files
-- `docs/design-and-styling.md` — styling and accessibility
-- `docs/security.md` — security basics
+- `.kit/stack-choice.md` — decide on a framework (or confirm vanilla is right)
+- `.kit/project-structure.md` — organize files
+- `.kit/design-and-styling.md` — styling and accessibility
+- `.kit/security.md` — security basics
 
 **For static sites:**
-- `docs/hosting-static.md` — deploy to GitHub Pages, Vercel, or Netlify
+- `.kit/hosting-static.md` — deploy to GitHub Pages, Vercel, or Netlify
 
 **For server apps:**
-- `docs/hosting-server.md` — deploy with a server
+- `.kit/hosting-server.md` — deploy with a server
 
 **When they need more interactivity:**
-- `docs/react-upgrade.md` — upgrade from vanilla to React
+- `.kit/react-upgrade.md` — upgrade from vanilla to React
 
 **For CI/CD (requires Git):**
-- `docs/cicd.md` — automated testing and deployment
+- `.kit/cicd.md` — automated testing and deployment
 
 ## Verify
 

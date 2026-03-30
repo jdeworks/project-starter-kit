@@ -40,13 +40,13 @@ bash "$SCRIPT_DIR/compose.sh" --variant website --mode full --target "$TEST_DIR"
 [ -f "$TEST_DIR/AGENTS.md" ] && pass "AGENTS.md created" || fail "AGENTS.md missing"
 [ -f "$TEST_DIR/Makefile" ] && pass "Makefile created" || fail "Makefile missing"
 [ -f "$TEST_DIR/.claude/settings.json" ] && pass ".claude/settings.json created" || fail ".claude/settings.json missing"
-[ -d "$TEST_DIR/docs" ] && pass "docs/ created" || fail "docs/ missing"
+[ -d "$TEST_DIR/.kit" ] && pass ".kit/ created" || fail ".kit/ missing"
 [ -d "$TEST_DIR/scripts" ] && pass "scripts/ created" || fail "scripts/ missing"
 [ -x "$TEST_DIR/scripts/health-check.sh" ] && pass "health-check.sh is executable" || fail "health-check.sh not executable"
 grep -q "Default: \*\*full\*\*" "$TEST_DIR/AGENTS.md" && pass "Mode set to full" || fail "Mode not set to full"
 
 # Check variant docs were merged
-[ -f "$TEST_DIR/docs/stack-choice.md" ] && pass "Variant docs merged" || fail "Variant docs missing"
+[ -f "$TEST_DIR/.kit/stack-choice.md" ] && pass "Variant .kit/ merged" || fail "Variant .kit/ missing"
 echo ""
 
 # ── Test: compose.sh — with starter ─────────────────────────────────────────

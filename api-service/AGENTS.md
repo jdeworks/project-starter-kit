@@ -11,7 +11,7 @@ as a concrete starting point — adapt them to your stack.
 
 > **Using a different framework?** The patterns (input validation, layered architecture,
 > migration discipline) carry over. Only the specific commands and libraries change.
-> See `docs/stack-choice.md` for mapping guidance. If your stack isn't covered,
+> See `.kit/stack-choice.md` for mapping guidance. If your stack isn't covered,
 > please open a PR — see CONTRIBUTING.md.
 
 ---
@@ -26,7 +26,7 @@ Pick a starter when composing your project — each gives you a working hello-wo
 
 Then: `npm install && npm run dev` (or `pip install -r requirements.txt` for Python starters)
 
-See `docs/stack-choice.md` for a full comparison.
+See `.kit/stack-choice.md` for a full comparison.
 
 ---
 
@@ -34,12 +34,12 @@ See `docs/stack-choice.md` for a full comparison.
 
 | Doc | Read when |
 |-----|-----------|
-| `docs/api-design.md` | Designing new endpoints, choosing REST vs GraphQL |
-| `docs/database.md` | Setting up a database, writing migrations, choosing an ORM |
-| `docs/auth.md` | Adding authentication or authorization |
-| `docs/error-handling.md` | Designing error responses, status codes, validation |
-| `docs/deployment.md` | Deploying to a cloud provider, containerizing |
-| `docs/stack-choice.md` | Evaluating frameworks, mapping kit patterns to your stack |
+| `.kit/api-design.md` | Designing new endpoints, choosing REST vs GraphQL |
+| `.kit/database.md` | Setting up a database, writing migrations, choosing an ORM |
+| `.kit/auth.md` | Adding authentication or authorization |
+| `.kit/error-handling.md` | Designing error responses, status codes, validation |
+| `.kit/deployment.md` | Deploying to a cloud provider, containerizing |
+| `.kit/stack-choice.md` | Evaluating frameworks, mapping kit patterns to your stack |
 
 ---
 
@@ -73,5 +73,5 @@ We need a concrete example to show patterns. We chose Hono because:
 - ~12 KB core — no bloat, no hidden magic
 
 **This is a recommendation, not a requirement.** The kit works with any backend stack.
-See `docs/stack-choice.md` for when a different framework is the better call, and how to
+See `.kit/stack-choice.md` for when a different framework is the better call, and how to
 map the Makefile targets and test patterns to your chosen stack.

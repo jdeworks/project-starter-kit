@@ -2,7 +2,7 @@
 
 SaaS products with user authentication, subscription billing, and multi-tenancy.
 
-**Example stack:** Next.js + Stripe (works with any full-stack framework — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** Next.js + Stripe (works with any full-stack framework — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -42,7 +42,7 @@ my-saas/
 ├── package.json           # From starter — dependencies pre-configured
 ├── src/                   # From starter — app entry point and scaffolding
 ├── tests/                 # From starter — test setup
-├── docs/
+├── .kit/
 │   ├── auth-and-users.md    # Auth services, roles, session management
 │   ├── billing.md           # Stripe webhooks, checkout, subscription lifecycle
 │   ├── multi-tenancy.md     # Row-level isolation, tenant scoping

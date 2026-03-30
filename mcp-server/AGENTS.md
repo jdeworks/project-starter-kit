@@ -11,7 +11,7 @@ docs below apply whether you're building a tool server, resource server, or both
 The example commands use the TypeScript MCP SDK. Python SDK is also officially supported.
 
 > **Using a different language?** The protocol is language-agnostic (JSON-RPC over stdio or
-> SSE). See `docs/stack-choice.md` for SDK options.
+> SSE). See `.kit/stack-choice.md` for SDK options.
 > If your stack isn't covered, please open a PR — see CONTRIBUTING.md.
 
 ---
@@ -24,7 +24,7 @@ Pick a starter when composing your project — each gives you a working hello-wo
 
 Then: `npm install`
 
-See `docs/stack-choice.md` for other SDK options.
+See `.kit/stack-choice.md` for other SDK options.
 
 ---
 
@@ -32,11 +32,11 @@ See `docs/stack-choice.md` for other SDK options.
 
 | Doc | Read when |
 |-----|-----------|
-| `docs/mcp-concepts.md` | Understanding MCP protocol: tools, resources, prompts, transports |
-| `docs/tool-design.md` | Designing tool definitions — names, descriptions, input schemas |
-| `docs/testing-mcp.md` | Testing MCP servers — unit, integration, and with real clients |
-| `docs/deployment.md` | Running MCP servers — stdio, SSE, packaging for distribution |
-| `docs/stack-choice.md` | Choosing between TypeScript SDK, Python SDK, or raw implementation |
+| `.kit/mcp-concepts.md` | Understanding MCP protocol: tools, resources, prompts, transports |
+| `.kit/tool-design.md` | Designing tool definitions — names, descriptions, input schemas |
+| `.kit/testing-mcp.md` | Testing MCP servers — unit, integration, and with real clients |
+| `.kit/deployment.md` | Running MCP servers — stdio, SSE, packaging for distribution |
+| `.kit/stack-choice.md` | Choosing between TypeScript SDK, Python SDK, or raw implementation |
 
 ---
 
@@ -68,4 +68,4 @@ We need a concrete example to show patterns. We chose the TypeScript SDK because
 - Same language ecosystem as Claude Code and many MCP clients
 
 **This is a recommendation, not a requirement.** The Python SDK is equally well-supported.
-See `docs/stack-choice.md` for all options.
+See `.kit/stack-choice.md` for all options.

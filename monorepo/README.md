@@ -2,7 +2,7 @@
 
 Multiple packages — frontend, backend, shared libraries, workers — in one repository.
 
-**Example stack:** Turborepo (works with Nx, pnpm workspaces, Bazel — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** Turborepo (works with Nx, pnpm workspaces, Bazel — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -42,7 +42,7 @@ my-monorepo/
 ├── package.json                   # From starter — workspace root config
 ├── apps/                          # From starter — application packages
 ├── packages/                      # From starter — shared libraries
-├── docs/
+├── .kit/
 │   ├── workspace-structure.md     # apps/, packages/, naming conventions
 │   ├── dependency-management.md   # Internal deps, hoisting, versioning
 │   ├── ci-strategy.md             # Affected detection, caching, parallel builds

@@ -2,7 +2,7 @@
 
 Native desktop applications using platform-native UI frameworks.
 
-**Example stack:** C# / .NET MAUI (works with WPF, SwiftUI, GTK — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** C# / .NET MAUI (works with WPF, SwiftUI, GTK — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -41,7 +41,7 @@ my-native-app/
 ├── Makefile
 ├── src/                     # From starter — app entry point and views
 ├── tests/                   # From starter — test setup
-├── docs/
+├── .kit/
 │   ├── mvvm-pattern.md        # Model-View-ViewModel structure
 │   ├── platform-apis.md       # Native features, platform-conditional code
 │   ├── packaging-native.md    # Installers, code signing, store distribution

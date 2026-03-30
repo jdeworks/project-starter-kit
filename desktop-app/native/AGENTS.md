@@ -10,7 +10,7 @@ frameworks (WPF, WinUI 3, SwiftUI, GTK). Native apps use platform-native control
 of a web view.
 
 > **Using a different framework?** The patterns (MVVM, platform APIs, packaging) carry over.
-> See `docs/stack-choice.md` for mapping guidance.
+> See `.kit/stack-choice.md` for mapping guidance.
 > If your stack isn't covered, please open a PR — see CONTRIBUTING.md.
 
 ---
@@ -23,7 +23,7 @@ Pick a starter when composing your project — each gives you a working hello-wo
 
 Then: `dotnet build && dotnet run`
 
-See `docs/stack-choice.md` for a full comparison.
+See `.kit/stack-choice.md` for a full comparison.
 
 ---
 
@@ -31,10 +31,10 @@ See `docs/stack-choice.md` for a full comparison.
 
 | Doc | Read when |
 |-----|-----------|
-| `docs/mvvm-pattern.md` | Structuring app code with Model-View-ViewModel |
-| `docs/platform-apis.md` | Accessing native platform features (filesystem, notifications, etc.) |
-| `docs/packaging-native.md` | Building installers, code signing, store distribution |
-| `docs/stack-choice.md` | Choosing between .NET MAUI, WPF, WinUI 3, SwiftUI |
+| `.kit/mvvm-pattern.md` | Structuring app code with Model-View-ViewModel |
+| `.kit/platform-apis.md` | Accessing native platform features (filesystem, notifications, etc.) |
+| `.kit/packaging-native.md` | Building installers, code signing, store distribution |
+| `.kit/stack-choice.md` | Choosing between .NET MAUI, WPF, WinUI 3, SwiftUI |
 
 ---
 
@@ -66,4 +66,4 @@ We need a concrete example to show patterns. We chose .NET MAUI because:
 - Strong MVVM support with CommunityToolkit.Mvvm
 
 **This is a recommendation, not a requirement.** WPF is better for Windows-only apps.
-SwiftUI is better for Apple-only apps. See `docs/stack-choice.md` for guidance.
+SwiftUI is better for Apple-only apps. See `.kit/stack-choice.md` for guidance.

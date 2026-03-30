@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # update.sh — update starter-kit infrastructure in an existing project
-# Downloads the latest kit and replaces hooks, scripts, docs, and base AGENTS.md sections.
-# Project-specific content (code, tests, CHANGES.md entries, custom AGENTS.md sections) is preserved.
+# Downloads the latest kit and replaces hooks, scripts, and kit-managed AGENTS.md sections.
+# Project-specific content (code, tests, CHANGES.md entries, custom AGENTS.md sections, Makefile) is preserved.
 # Usage: bash <(curl -sL .../cli/update.sh) [--variant game-dev] [--dry-run]
 #    or: bash /path/to/cli/update.sh --target /path/to/project [--variant game-dev]
 set -euo pipefail
@@ -16,19 +16,21 @@ Usage: bash cli/update.sh [--target <path>] [--variant <name>] [--dry-run]
 
 Updates starter-kit infrastructure files in an existing project to the latest version.
 
-What gets updated:
-  - .claude/hooks/          All hook scripts (replaced)
-  - .claude/settings.json   Hook wiring (replaced)
-  - scripts/                analyze-changes.sh, health-check.sh (replaced)
-  - docs/                   Base + variant docs (new files added, existing replaced)
-  - AGENTS.md               Base sections updated, project-specific sections preserved
-  - Makefile                Replaced (task runner)
-  - .opencode/, .cursor/, .windsurf/, .github/   Agent configs (replaced)
+What gets REPLACED (kit-owned, safe to overwrite):
+  - .claude/hooks/          All hook scripts
+  - .claude/settings.json   Hook wiring
+  - scripts/                analyze-changes.sh, health-check.sh
+  - .kit/                   Reference docs (base + variant)
+  - .opencode/, .cursor/, .windsurf/, .github/   Agent configs
+
+What gets MERGED (user content preserved):
+  - AGENTS.md               Only the section between kit:managed markers is replaced.
+                             Your project overview, custom rules, and variant sections are kept.
 
 What is NOT touched:
   - src/, tests/            Your code
-  - CHANGES.md              Your session history (entries preserved)
-  - SESSION_SUMMARY.md      Regenerated on next pre-compact
+  - Makefile                Your build targets (you own this file)
+  - CHANGES.md              Your session history
   - package.json, etc.      Your dependencies
   - Any file not from the kit
 
@@ -61,7 +63,6 @@ fi
 
 # ── Auto-detect variant from AGENTS.md ──────────────────────────────────────
 if [ -z "$VARIANT" ]; then
-  # Look for variant-specific markers in AGENTS.md
   if grep -q 'game-architecture\|game-loop\|Game-specific rules' "$TARGET/AGENTS.md" 2>/dev/null; then
     VARIANT="game-dev"
   elif grep -q 'saas-architecture\|multi-tenancy\|SaaS-specific' "$TARGET/AGENTS.md" 2>/dev/null; then
@@ -84,7 +85,7 @@ if [ -z "$VARIANT" ]; then
 
   if [ -z "$VARIANT" ]; then
     echo "Warning: could not auto-detect variant. Use --variant to specify."
-    echo "Updating base files only (no variant-specific docs)."
+    echo "Updating base files only (no variant-specific .kit/ docs)."
   else
     echo "Auto-detected variant: $VARIANT"
   fi
@@ -104,7 +105,6 @@ trap 'rm -rf "$TMPDIR"' EXIT
 
 echo "==> Downloading latest starter-kit..."
 
-# If we're running from inside the kit repo, use it directly
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 KIT_ROOT="$(dirname "$SCRIPT_DIR")"
 if [ -f "$KIT_ROOT/base/AGENTS.md" ] && [ -d "$KIT_ROOT/cli" ]; then
@@ -117,64 +117,47 @@ else
   fi
   cd "$TMPDIR/kit"
   SPARSE_SET="base cli"
-  [ -n "$VARIANT" ] && SPARSE_SET="$SPARSE_SET $VARIANT/AGENTS.md $VARIANT/docs"
+  [ -n "$VARIANT" ] && SPARSE_SET="$SPARSE_SET $VARIANT/AGENTS.md $VARIANT/.kit"
   git sparse-checkout init --cone 2>/dev/null
   git sparse-checkout set $SPARSE_SET
   git checkout "$BRANCH" 2>/dev/null
   KIT="$TMPDIR/kit"
 fi
 
-source "$KIT/cli/_helpers.sh"
-
-# ── Determine what to update ────────────────────────────────────────────────
-
-# Files that get fully replaced (kit infrastructure)
-REPLACE_DIRS=(".claude/hooks" "scripts" ".opencode" ".cursor" ".windsurf" ".github")
-REPLACE_FILES=(".claude/settings.json" "Makefile")
-
-# Docs: base docs + variant docs (replaced/added, never removed)
-BASE_DOCS="$KIT/base/docs"
-VARIANT_DOCS=""
-[ -n "$VARIANT" ] && [ -d "$KIT/$VARIANT/docs" ] && VARIANT_DOCS="$KIT/$VARIANT/docs"
-
-# Files excluded from compose (should not exist in target)
-EXCLUDE_FILES=("HOOKS.md" "CONTRIBUTING.md" "docs/architecture.md" "docs/bring-your-own-stack.md" "scripts/verify-changes.sh")
-
+# ── Counters ────────────────────────────────────────────────────────────────
 updated=0 added=0 removed=0 skipped=0
 
 update_file() {
   local src="$1" dest="$2" label="$3"
-  if [ ! -f "$src" ]; then return; fi
+  [ ! -f "$src" ] && return
 
   if [ -f "$dest" ]; then
     if diff -q "$src" "$dest" >/dev/null 2>&1; then
-      skipped=$((skipped + 1))
-      return
+      skipped=$((skipped + 1)); return
     fi
     if [ "$DRY_RUN" = true ]; then
-      echo "  UPDATE: $label"
-      updated=$((updated + 1))
-      return
+      echo "  UPDATE: $label"; updated=$((updated + 1)); return
     fi
     mkdir -p "$(dirname "$dest")"
     cp "$src" "$dest"
-    echo "  UPDATE: $label"
-    updated=$((updated + 1))
+    echo "  UPDATE: $label"; updated=$((updated + 1))
   else
     if [ "$DRY_RUN" = true ]; then
-      echo "  ADD:    $label"
-      added=$((added + 1))
-      return
+      echo "  ADD:    $label"; added=$((added + 1)); return
     fi
     mkdir -p "$(dirname "$dest")"
     cp "$src" "$dest"
-    echo "  ADD:    $label"
-    added=$((added + 1))
+    echo "  ADD:    $label"; added=$((added + 1))
   fi
 }
 
+# Files that should never exist in a composed project
+EXCLUDE_FILES=("HOOKS.md" "CONTRIBUTING.md" ".kit/architecture.md" ".kit/bring-your-own-stack.md" "scripts/verify-changes.sh")
+
 # ── Replace infrastructure directories ──────────────────────────────────────
 echo "==> Updating infrastructure files..."
+
+REPLACE_DIRS=(".claude/hooks" "scripts" ".opencode" ".cursor" ".windsurf" ".github")
 
 for dir in "${REPLACE_DIRS[@]}"; do
   src_dir="$KIT/base/$dir"
@@ -182,7 +165,6 @@ for dir in "${REPLACE_DIRS[@]}"; do
   while IFS= read -r -d '' f; do
     rel="${f#$src_dir/}"
     full_rel="$dir/$rel"
-    # Skip files in the exclusion list
     skip=false
     for excl in "${EXCLUDE_FILES[@]}"; do
       [ "$full_rel" = "$excl" ] && skip=true && break
@@ -192,102 +174,119 @@ for dir in "${REPLACE_DIRS[@]}"; do
   done < <(find "$src_dir" -type f -print0 2>/dev/null)
 done
 
-for file in "${REPLACE_FILES[@]}"; do
-  update_file "$KIT/base/$file" "$TARGET/$file" "$file"
-done
+# Replace settings.json (hook wiring)
+update_file "$KIT/base/.claude/settings.json" "$TARGET/.claude/settings.json" ".claude/settings.json"
 
-# ── Update docs ─────────────────────────────────────────────────────────────
-echo "==> Updating docs..."
+# ── Update .kit/ reference docs ─────────────────────────────────────────────
+echo "==> Updating .kit/ reference docs..."
 
-if [ -d "$BASE_DOCS" ]; then
+if [ -d "$KIT/base/.kit" ]; then
   while IFS= read -r -d '' f; do
-    rel="${f#$BASE_DOCS/}"
-    # Skip kit-internal docs
+    rel="${f#$KIT/base/.kit/}"
     skip=false
     for excl in "architecture.md" "bring-your-own-stack.md"; do
       [ "$rel" = "$excl" ] && skip=true && break
     done
     [ "$skip" = true ] && continue
-    update_file "$f" "$TARGET/docs/$rel" "docs/$rel"
-  done < <(find "$BASE_DOCS" -type f -name "*.md" -print0 2>/dev/null)
+    update_file "$f" "$TARGET/.kit/$rel" ".kit/$rel"
+  done < <(find "$KIT/base/.kit" -type f -name "*.md" -print0 2>/dev/null)
 fi
 
-if [ -n "$VARIANT_DOCS" ]; then
+if [ -n "$VARIANT" ] && [ -d "$KIT/$VARIANT/.kit" ]; then
   while IFS= read -r -d '' f; do
-    rel="${f#$VARIANT_DOCS/}"
-    update_file "$f" "$TARGET/docs/$rel" "docs/$rel (variant)"
-  done < <(find "$VARIANT_DOCS" -type f -name "*.md" -print0 2>/dev/null)
+    rel="${f#$KIT/$VARIANT/.kit/}"
+    update_file "$f" "$TARGET/.kit/$rel" ".kit/$rel (variant)"
+  done < <(find "$KIT/$VARIANT/.kit" -type f -name "*.md" -print0 2>/dev/null)
 fi
 
-# ── Update AGENTS.md base sections ──────────────────────────────────────────
+# ── Migrate docs/ → .kit/ if old layout exists ─────────────────────────────
+if [ -d "$TARGET/docs" ] && [ ! -d "$TARGET/.kit" ]; then
+  echo "==> Migrating docs/ → .kit/ (old layout detected)..."
+  if [ "$DRY_RUN" = true ]; then
+    echo "  MIGRATE: docs/ → .kit/"
+  else
+    mv "$TARGET/docs" "$TARGET/.kit"
+    echo "  MIGRATE: docs/ → .kit/"
+  fi
+  updated=$((updated + 1))
+elif [ -d "$TARGET/docs" ] && [ -d "$TARGET/.kit" ]; then
+  echo "==> Migrating remaining docs/ files → .kit/..."
+  while IFS= read -r -d '' f; do
+    rel="${f#$TARGET/docs/}"
+    if [ ! -f "$TARGET/.kit/$rel" ]; then
+      if [ "$DRY_RUN" = true ]; then
+        echo "  MIGRATE: docs/$rel → .kit/$rel"
+      else
+        mkdir -p "$(dirname "$TARGET/.kit/$rel")"
+        mv "$f" "$TARGET/.kit/$rel"
+        echo "  MIGRATE: docs/$rel → .kit/$rel"
+      fi
+      updated=$((updated + 1))
+    fi
+  done < <(find "$TARGET/docs" -type f -print0 2>/dev/null)
+  if [ "$DRY_RUN" = false ]; then
+    # Remove docs/ entirely — all content is now in .kit/
+    rm -rf "$TARGET/docs"
+    echo "  REMOVE: docs/ (migrated to .kit/)"
+    removed=$((removed + 1))
+  fi
+fi
+
+# ── Update AGENTS.md (marker-based merge) ───────────────────────────────────
 echo "==> Updating AGENTS.md..."
 
-# Strategy: rebuild AGENTS.md by taking the new base template up to "Tool-specific entry points"
-# then appending everything from the old AGENTS.md after the base section (variant-specific content).
 NEW_BASE="$KIT/base/AGENTS.md"
 OLD_AGENTS="$TARGET/AGENTS.md"
-VARIANT_AGENTS=""
-[ -n "$VARIANT" ] && [ -f "$KIT/$VARIANT/AGENTS.md" ] && VARIANT_AGENTS="$KIT/$VARIANT/AGENTS.md"
 
 if [ -f "$NEW_BASE" ]; then
-  # Extract project-specific sections from old AGENTS.md:
-  # - Project overview + Tech stack + Key commands + Important paths (user-filled)
-  # - Everything after "Tool-specific entry points" section (variant content)
-  old_overview=$(sed -n '/^## Project overview$/,/^---$/p' "$OLD_AGENTS" | head -n -1)
-  old_techstack=$(sed -n '/^## Tech stack$/,/^## Key commands$/p' "$OLD_AGENTS" | head -n -1)
-  old_commands=$(sed -n '/^## Key commands$/,/^## Important paths$/p' "$OLD_AGENTS" | head -n -1)
-  old_paths=$(sed -n '/^## Important paths$/,/^---$/p' "$OLD_AGENTS" | head -n -1)
-  old_variant=$(sed -n '/^## Tool-specific entry points$/,//p' "$OLD_AGENTS")
+  if grep -q 'kit:managed:start' "$OLD_AGENTS" 2>/dev/null; then
+    # Has markers — replace only the managed section
+    new_managed=$(sed -n '/kit:managed:start/,/kit:managed:end/p' "$NEW_BASE")
 
-  if [ "$DRY_RUN" = true ]; then
-    echo "  UPDATE: AGENTS.md (base sections refreshed, project sections preserved)"
-    updated=$((updated + 1))
+    if [ "$DRY_RUN" = true ]; then
+      echo "  UPDATE: AGENTS.md (kit-managed section only, your content preserved)"
+      updated=$((updated + 1))
+    else
+      {
+        sed -n '1,/kit:managed:start/p' "$OLD_AGENTS" | head -n -1
+        echo "$new_managed"
+        sed -n '/kit:managed:end/,$p' "$OLD_AGENTS" | tail -n +2
+      } > "$TARGET/AGENTS.md.new"
+      mv "$TARGET/AGENTS.md.new" "$TARGET/AGENTS.md"
+      echo "  UPDATE: AGENTS.md (kit-managed section only, your content preserved)"
+      updated=$((updated + 1))
+    fi
   else
-    # Build new AGENTS.md
-    {
-      # Header + mode section from new base
-      sed -n '1,/^---$/p' "$NEW_BASE"
-      echo ""
+    # No markers — inject them around the base sections for future updates
+    echo "  NOTE: AGENTS.md has no kit:managed markers. Adding them for future updates."
+    echo "        Review the result — your custom content should be outside the markers."
 
-      # Project-specific sections (preserved from old)
-      echo "$old_overview"
-      echo ""
-      echo "$old_techstack"
-      echo ""
-      echo "$old_commands"
-      echo ""
-      echo "$old_paths"
-      echo ""
-      echo "---"
-      echo ""
-
-      # Reference docs + rules + hooks from new base
-      sed -n '/^## Reference docs/,/^## Tool-specific entry points$/p' "$NEW_BASE" | head -n -1
-
-      # Variant content (from old file, or merge from kit variant)
-      echo "$old_variant"
-
-      # If there's a variant AGENTS.md, append sections not already present
-      if [ -n "$VARIANT_AGENTS" ]; then
-        variant_content=$(sed '1,/^---$/d' "$VARIANT_AGENTS" 2>/dev/null || cat "$VARIANT_AGENTS")
-        # Only append if variant content isn't already in the file
-        while IFS= read -r section_header; do
-          if ! grep -qF "$section_header" "$OLD_AGENTS" 2>/dev/null; then
-            echo ""
-            sed -n "/^${section_header}$/,/^---$/p" "$VARIANT_AGENTS" 2>/dev/null || true
-          fi
-        done < <(grep '^## ' <<< "$variant_content" 2>/dev/null || true)
+    if [ "$DRY_RUN" = false ]; then
+      if grep -q '## Reference docs' "$OLD_AGENTS" && grep -q '## Tool-specific entry points' "$OLD_AGENTS"; then
+        new_managed=$(sed -n '/kit:managed:start/,/kit:managed:end/p' "$NEW_BASE")
+        {
+          sed -n '1,/## Reference docs/p' "$OLD_AGENTS" | head -n -1
+          echo "$new_managed"
+          sed -n '/## Tool-specific entry points/,$p' "$OLD_AGENTS"
+        } > "$TARGET/AGENTS.md.new"
+        mv "$TARGET/AGENTS.md.new" "$TARGET/AGENTS.md"
+        echo "  UPDATE: AGENTS.md (markers added, base sections refreshed)"
+      else
+        echo "  SKIP: AGENTS.md structure not recognized — update manually"
       fi
-    } > "$TARGET/AGENTS.md.new"
-
-    mv "$TARGET/AGENTS.md.new" "$TARGET/AGENTS.md"
-    echo "  UPDATE: AGENTS.md (base sections refreshed, project sections preserved)"
+    fi
     updated=$((updated + 1))
+  fi
+
+  # Migrate docs/ → .kit/ references in AGENTS.md
+  if [ "$DRY_RUN" = false ] && grep -q '`docs/' "$TARGET/AGENTS.md" 2>/dev/null; then
+    sed -i 's|`docs/|`.kit/|g' "$TARGET/AGENTS.md"
+    echo "  UPDATE: AGENTS.md docs/ → .kit/ path migration"
   fi
 fi
 
 # ── Remove files that shouldn't exist ───────────────────────────────────────
-echo "==> Cleaning up kit-internal files..."
+echo "==> Cleaning up..."
 for f in "${EXCLUDE_FILES[@]}"; do
   if [ -f "$TARGET/$f" ]; then
     if [ "$DRY_RUN" = true ]; then

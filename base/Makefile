@@ -1,7 +1,7 @@
 # Makefile — project-starter-kit base
 # Default targets use Node.js + npm. For other stacks, Makefile.stack overrides
 # the concrete commands while keeping the same target names.
-# See docs/bring-your-own-stack.md for how to adapt this.
+# See .kit/bring-your-own-stack.md for how to adapt this.
 
 .PHONY: help dev build check ci test health deadcode lint format types verify analyze clean
 

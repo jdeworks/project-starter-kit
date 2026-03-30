@@ -2,7 +2,7 @@
 
 Command-line tools and utilities — argument parsing, output formatting, and distribution.
 
-**Example stack:** Node.js + Commander (works with Go, Rust, Python — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** Node.js + Commander (works with Go, Rust, Python — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -42,7 +42,7 @@ my-cli/
 ├── package.json         # From starter — dependencies pre-configured
 ├── src/                 # From starter — CLI entry point and commands
 ├── tests/               # From starter — test setup
-├── docs/
+├── .kit/
 │   ├── cli-design.md       # Commands, subcommands, flags, error messages
 │   ├── output-and-ux.md    # stdout/stderr, colors, progress, tables
 │   ├── testing-clis.md     # Unit, integration, snapshot testing

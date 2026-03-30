@@ -20,8 +20,8 @@
 2. The variant's `AGENTS.md` is the entry point — fill in the doc table and rules section
 3. Rules should be **framework-agnostic** (validate input, test endpoints, etc.) — don't
    hardcode a specific library unless offering it as one example among alternatives
-4. Add docs to `<variant>/docs/` — one doc per topic, named clearly
-5. Every variant should have a `docs/stack-choice.md` explaining when to choose alternatives
+4. Add docs to `<variant>/.kit/` — one doc per topic, named clearly
+5. Every variant should have a `.kit/stack-choice.md` explaining when to choose alternatives
 6. If the variant has a starter template, put it in `<variant>/template/`
 7. For online AI use, generate a bundle: `bash cli/bundle.sh --variant <name>`
 8. Do not modify `base/` from a variant PR unless the change genuinely applies to all variants
@@ -37,7 +37,7 @@
 
 ## Adding a game engine to game-dev
 
-1. Add docs to `game-dev/docs/<engine-name>/`
+1. Add docs to `game-dev/.kit/<engine-name>/`
 2. Update `game-dev/AGENTS.md` to reference the new docs
 3. Add a note in the doc table: "Read when using <engine>"
 4. If the engine has significantly different testing patterns, document them explicitly

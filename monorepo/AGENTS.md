@@ -10,7 +10,7 @@ Turborepo, Nx, pnpm workspaces, Lerna, or Bazel. The example commands use Turbor
 concrete starting point — adapt them to your tooling.
 
 > **Using a different monorepo tool?** The patterns (workspace isolation, shared packages,
-> scoped commands) carry over. See `docs/stack-choice.md` for mapping guidance.
+> scoped commands) carry over. See `.kit/stack-choice.md` for mapping guidance.
 > If your tool isn't covered, please open a PR — see CONTRIBUTING.md.
 
 ---
@@ -23,7 +23,7 @@ Pick a starter when composing your project — each gives you a working hello-wo
 
 Then: `npm install && npm run dev`
 
-See `docs/stack-choice.md` for a full comparison.
+See `.kit/stack-choice.md` for a full comparison.
 
 ---
 
@@ -31,11 +31,11 @@ See `docs/stack-choice.md` for a full comparison.
 
 | Doc | Read when |
 |-----|-----------|
-| `docs/workspace-structure.md` | Organizing packages, apps, and shared code |
-| `docs/dependency-management.md` | Managing internal and external dependencies |
-| `docs/ci-strategy.md` | CI/CD for monorepos — caching, affected detection, parallel builds |
-| `docs/shared-packages.md` | Creating and consuming shared libraries within the repo |
-| `docs/stack-choice.md` | Choosing between Turborepo, Nx, pnpm workspaces, Bazel |
+| `.kit/workspace-structure.md` | Organizing packages, apps, and shared code |
+| `.kit/dependency-management.md` | Managing internal and external dependencies |
+| `.kit/ci-strategy.md` | CI/CD for monorepos — caching, affected detection, parallel builds |
+| `.kit/shared-packages.md` | Creating and consuming shared libraries within the repo |
+| `.kit/stack-choice.md` | Choosing between Turborepo, Nx, pnpm workspaces, Bazel |
 
 ---
 
@@ -67,4 +67,4 @@ We need a concrete example to show patterns. We chose Turborepo because:
 - Simple mental model compared to Nx
 
 **This is a recommendation, not a requirement.** The kit works with any monorepo tool.
-See `docs/stack-choice.md` for when Nx, Bazel, or plain workspaces is the better call.
+See `.kit/stack-choice.md` for when Nx, Bazel, or plain workspaces is the better call.

@@ -40,7 +40,7 @@ for v in $VALID_VARIANTS; do
     continue
   fi
 
-  # Extract doc paths from markdown table rows like: | `docs/foo.md` |
+  # Extract doc paths from markdown table rows like: | `.kit/foo.md` |
   while IFS= read -r doc_ref; do
     doc_path=$(echo "$doc_ref" | sed -n 's/.*`\(docs\/[^`]*\)`.*/\1/p' || true)
     if [ -n "$doc_path" ]; then
@@ -50,7 +50,7 @@ for v in $VALID_VARIANTS; do
         ERRORS=$((ERRORS + 1))
       fi
     fi
-  done < <(grep '| `docs/' "$agents_file" 2>/dev/null || true)
+  done < <(grep '| `.kit/' "$agents_file" 2>/dev/null || true)
 done
 
 if [ "$ERRORS" -eq 0 ]; then
@@ -62,7 +62,7 @@ echo ""
 echo "==> Checking base AGENTS.md doc references..."
 base_agents="$KIT_ROOT/base/AGENTS.md"
 while IFS= read -r doc_ref; do
-  doc_path=$(echo "$doc_ref" | grep -oP '`docs/[^`]+`' | tr -d '`' || true)
+  doc_path=$(echo "$doc_ref" | grep -oP '`.kit/[^`]+`' | tr -d '`' || true)
   if [ -n "$doc_path" ]; then
     full_path="$KIT_ROOT/base/$doc_path"
     if [ ! -f "$full_path" ]; then
@@ -70,7 +70,7 @@ while IFS= read -r doc_ref; do
       ERRORS=$((ERRORS + 1))
     fi
   fi
-done < <(grep '| `docs/' "$base_agents" 2>/dev/null || true)
+done < <(grep '| `.kit/' "$base_agents" 2>/dev/null || true)
 
 if [ "$ERRORS" -eq 0 ]; then
   echo "  All doc references valid."
@@ -103,7 +103,7 @@ for v in $VALID_VARIANTS; do
   if [ -d "$KIT_ROOT/$v/docs" ]; then
     while IFS= read -r doc_file; do
       doc_basename=$(basename "$doc_file")
-      doc_rel="docs/$doc_basename"
+      doc_rel=".kit/$doc_basename"
       if ! grep -q "$doc_rel" "$KIT_ROOT/$v/AGENTS.md" 2>/dev/null; then
         echo "  WARN: $v/$doc_rel exists but not referenced in AGENTS.md"
         WARNINGS=$((WARNINGS + 1))

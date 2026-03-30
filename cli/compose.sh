@@ -102,7 +102,7 @@ fi
 # ── Copy layers (exclude kit-internal files, variant AGENTS.md replaces base) ─
 echo "==> Copying base layer..."
 copy_layer "$KIT_ROOT/base" "$TARGET" "stacks/*" "repomix.config.json" "README.md" \
-  "HOOKS.md" "CONTRIBUTING.md" "docs/architecture.md" "docs/bring-your-own-stack.md" "scripts/verify-changes.sh"
+  "HOOKS.md" "CONTRIBUTING.md" ".kit/architecture.md" ".kit/bring-your-own-stack.md" "scripts/verify-changes.sh"
 
 echo "==> Copying $VARIANT variant..."
 copy_layer "$KIT_ROOT/$VARIANT" "$TARGET" "README.md" "starters/*"
@@ -149,4 +149,4 @@ echo "Next steps:"
 echo "  cd $TARGET"
 echo "  Tell your agent: 'Read AGENTS.md and tell me what mode we're in'"
 [ "$MODE" = "lean" ] && echo "  Lean mode. Upgrade anytime: bash cli/upgrade.sh"
-if [ -n "${DETECTED_STACK:-}" ] && [ "$DETECTED_STACK" != "node" ]; then echo "  Stack: $DETECTED_STACK — see docs/bring-your-own-stack.md"; fi
+if [ -n "${DETECTED_STACK:-}" ] && [ "$DETECTED_STACK" != "node" ]; then echo "  Stack: $DETECTED_STACK — see .kit/bring-your-own-stack.md"; fi

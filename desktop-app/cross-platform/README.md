@@ -2,7 +2,7 @@
 
 Desktop applications for Windows, macOS, and Linux.
 
-**Example stack:** Tauri 2 (works with Electron, Wails — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** Tauri 2 (works with Electron, Wails — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -42,7 +42,7 @@ my-desktop-app/
 ├── package.json           # From starter — dependencies pre-configured
 ├── src/                   # From starter — app frontend and scaffolding
 ├── tests/                 # From starter — test setup
-├── docs/
+├── .kit/
 │   ├── ipc-and-commands.md   # Frontend-backend communication
 │   ├── native-apis.md        # Filesystem, notifications, tray, clipboard
 │   ├── packaging.md          # Installers for Windows, macOS, Linux

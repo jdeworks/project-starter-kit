@@ -10,7 +10,7 @@ you're using Next.js, Nuxt, SvelteKit, Rails, Laravel, or anything else. The exa
 use Next.js + Stripe as a concrete starting point — adapt them to your stack.
 
 > **Using a different framework?** The patterns (auth via service, webhook-driven billing,
-> tenant isolation) carry over. See `docs/stack-choice.md` for mapping guidance.
+> tenant isolation) carry over. See `.kit/stack-choice.md` for mapping guidance.
 > If your stack isn't covered, please open a PR — see CONTRIBUTING.md.
 
 ---
@@ -24,7 +24,7 @@ Pick a starter when composing your project — each gives you a working hello-wo
 
 Then: `npm install && npm run dev`
 
-See `docs/stack-choice.md` for a full comparison.
+See `.kit/stack-choice.md` for a full comparison.
 
 ---
 
@@ -32,12 +32,12 @@ See `docs/stack-choice.md` for a full comparison.
 
 | Doc | Read when |
 |-----|-----------|
-| `docs/auth-and-users.md` | Setting up authentication, user management, roles |
-| `docs/billing.md` | Integrating subscription billing (Stripe, Lemon Squeezy, etc.) |
-| `docs/multi-tenancy.md` | Isolating data per tenant/organization |
-| `docs/onboarding.md` | Building signup flows, trials, activation |
-| `docs/stack-choice.md` | Evaluating full-stack frameworks for SaaS |
-| `docs/email.md` | Transactional email (welcome, invoice, password reset) |
+| `.kit/auth-and-users.md` | Setting up authentication, user management, roles |
+| `.kit/billing.md` | Integrating subscription billing (Stripe, Lemon Squeezy, etc.) |
+| `.kit/multi-tenancy.md` | Isolating data per tenant/organization |
+| `.kit/onboarding.md` | Building signup flows, trials, activation |
+| `.kit/stack-choice.md` | Evaluating full-stack frameworks for SaaS |
+| `.kit/email.md` | Transactional email (welcome, invoice, password reset) |
 
 ---
 
@@ -69,4 +69,4 @@ We need a concrete example to show patterns. We chose Next.js + Stripe because:
 - Strong AI tooling support
 
 **This is a recommendation, not a requirement.** The kit works with any SaaS stack.
-See `docs/stack-choice.md` for when Rails, Laravel, or another framework is the better call.
+See `.kit/stack-choice.md` for when Rails, Laravel, or another framework is the better call.

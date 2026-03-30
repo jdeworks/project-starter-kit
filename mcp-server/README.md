@@ -2,7 +2,7 @@
 
 Model Context Protocol servers — tools and resources that AI agents can discover and use.
 
-**Example stack:** TypeScript MCP SDK (also supports Python SDK — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** TypeScript MCP SDK (also supports Python SDK — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -42,7 +42,7 @@ my-mcp/
 ├── package.json         # From starter — dependencies pre-configured
 ├── src/                 # From starter — MCP server entry point and tools
 ├── tests/               # From starter — test setup
-├── docs/
+├── .kit/
 │   ├── mcp-concepts.md     # Tools, resources, prompts, transports
 │   ├── tool-design.md      # Naming, descriptions, input schemas, returns
 │   ├── testing-mcp.md      # Unit, integration, manual testing

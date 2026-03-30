@@ -27,7 +27,7 @@ Shared by every project. Contains:
 - `.cursor/`, `.windsurf/` — minimal redirects to AGENTS.md
 - `.github/copilot-instructions.md` — redirect to AGENTS.md
 - `scripts/` — health-check.sh, analyze-changes.sh
-- `docs/` — reference docs (code-health, testing, changelog-protocol, etc.)
+- `.kit/` — reference docs (code-health, testing, changelog-protocol, etc.)
 - `Makefile` — task runner with standard targets
 - `CHANGES.md`, `SESSION_SUMMARY.md` — lifecycle files
 - `repomix.config.json` — bundle config for online AI agents
@@ -36,7 +36,7 @@ Shared by every project. Contains:
 
 Adds project-type-specific guidance:
 - `AGENTS.md` — extends base with variant-specific rules, doc table, LOC overrides
-- `docs/` — topic docs (stack-choice, deployment, testing patterns, etc.)
+- `.kit/` — topic docs (stack-choice, deployment, testing patterns, etc.)
 
 Variant files are **merged on top of base** by `cli/compose.sh`. Variant AGENTS.md
 replaces the base AGENTS.md (it contains the base's `<!-- FILL IN -->` sections

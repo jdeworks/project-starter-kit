@@ -28,8 +28,8 @@ printf "%-34s %-8s %s\n" "-------" "------" "----"
 total_docs=0
 for v in $VALID_VARIANTS; do
   doc_count=0
-  if [ -d "$KIT_ROOT/$v/docs" ]; then
-    doc_count=$(find "$KIT_ROOT/$v/docs" -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
+  if [ -d "$KIT_ROOT/$v/.kit" ]; then
+    doc_count=$(find "$KIT_ROOT/$v/.kit" -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
   fi
   total_docs=$((total_docs + doc_count))
 
@@ -45,7 +45,7 @@ done
 echo ""
 
 # ── Base layer ───────────────────────────────────────────────────────────────
-base_docs=$(find "$KIT_ROOT/base/docs" -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
+base_docs=$(find "$KIT_ROOT/base/.kit" -name "*.md" -type f 2>/dev/null | wc -l | tr -d ' ')
 base_hooks=$(find "$KIT_ROOT/base/.claude/hooks" -name "*.sh" -type f 2>/dev/null | wc -l | tr -d ' ')
 base_scripts=$(find "$KIT_ROOT/base/scripts" -name "*.sh" -type f 2>/dev/null | wc -l | tr -d ' ')
 cli_scripts=$(find "$KIT_ROOT/cli" -name "*.sh" -type f 2>/dev/null | wc -l | tr -d ' ')

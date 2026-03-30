@@ -10,7 +10,7 @@ you're using Phaser, PixiJS, Three.js, Babylon.js, or raw Canvas/WebGL. The exam
 use Phaser as a concrete starting point — adapt them to your engine.
 
 > **Using a different engine?** The patterns (game loop, asset management, scene organization,
-> testing) carry over. See `docs/stack-choice.md` for mapping guidance.
+> testing) carry over. See `.kit/stack-choice.md` for mapping guidance.
 > Using Godot, Unity, or Unreal? Those are native engines — this variant focuses on browser
 > games. PRs for native engine guidance are welcome — see CONTRIBUTING.md.
 
@@ -27,7 +27,7 @@ Pick a starter when composing your project — each gives you a working hello-wo
 
 Then: `npm install && npm run dev`
 
-See `docs/stack-choice.md` for a full comparison.
+See `.kit/stack-choice.md` for a full comparison.
 
 ---
 
@@ -35,11 +35,11 @@ See `docs/stack-choice.md` for a full comparison.
 
 | Doc | Read when |
 |-----|-----------|
-| `docs/game-architecture.md` | Structuring game code — scenes, entities, systems |
-| `docs/asset-management.md` | Loading, organizing, and optimizing game assets |
-| `docs/game-loop.md` | Understanding and implementing the update/render cycle |
-| `docs/testing-games.md` | Testing game logic (not rendering) |
-| `docs/stack-choice.md` | Choosing between Phaser, PixiJS, Three.js, or other engines |
+| `.kit/game-architecture.md` | Structuring game code — scenes, entities, systems |
+| `.kit/asset-management.md` | Loading, organizing, and optimizing game assets |
+| `.kit/game-loop.md` | Understanding and implementing the update/render cycle |
+| `.kit/testing-games.md` | Testing game logic (not rendering) |
+| `.kit/stack-choice.md` | Choosing between Phaser, PixiJS, Three.js, or other engines |
 
 ---
 
@@ -72,4 +72,4 @@ We need a concrete example to show patterns. We chose Phaser because:
 
 **This is a recommendation, not a requirement.** PixiJS is better for pure rendering without
 game framework overhead. Three.js/Babylon.js are better for 3D.
-See `docs/stack-choice.md` for guidance.
+See `.kit/stack-choice.md` for guidance.

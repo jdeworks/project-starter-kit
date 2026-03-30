@@ -65,7 +65,7 @@ const user = db.prepare('SELECT * FROM users WHERE id = ?').get(userId)
 
 - **Persistent volume required** for SQLite — without it, data is lost on redeploy
 - **Single instance only** with SQLite — for multi-instance, use Postgres
-- **Always use parameterized queries** — see `docs/security.md`
+- **Always use parameterized queries** — see `.kit/security.md`
 
 ## Docker deployment
 

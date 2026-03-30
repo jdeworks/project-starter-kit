@@ -100,7 +100,7 @@ obj/
 
 ### 6. Read the variant's stack-choice.md
 
-Every variant has a `docs/stack-choice.md` with a mapping table showing how kit concepts
+Every variant has a `.kit/stack-choice.md` with a mapping table showing how kit concepts
 translate to different frameworks. Use this as a reference.
 
 ## What transfers across all stacks
@@ -118,6 +118,6 @@ These concepts are universal — they work regardless of language:
 ## Contributing your stack
 
 If you've adapted the kit to a stack that isn't represented:
-1. Add examples to the relevant variant's `docs/stack-choice.md`
+1. Add examples to the relevant variant's `.kit/stack-choice.md`
 2. Add a quick-start example in the AGENTS.md `<details>` section
 3. Open a PR — see CONTRIBUTING.md

@@ -65,4 +65,4 @@ Expo templates come with TypeScript pre-configured. Use strict mode in `tsconfig
 
 ## Other frameworks
 
-If using Flutter, .NET MAUI, or another framework, see `docs/stack-choice.md` for setup guidance.
+If using Flutter, .NET MAUI, or another framework, see `.kit/stack-choice.md` for setup guidance.

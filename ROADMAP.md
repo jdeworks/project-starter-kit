@@ -43,7 +43,7 @@ Tracks what's done, what's next, and what's planned for project-starter-kit.
 ### Framework extensibility
 
 - [x] **Stack-specific health-check overrides** — health-check.sh reads `SRC_EXTENSIONS` from env for .py, .go, .cs, .rs, etc.
-- [x] **"Bring your own stack" guide** — `docs/bring-your-own-stack.md` with Makefile mapping examples
+- [x] **"Bring your own stack" guide** — `.kit/bring-your-own-stack.md` with Makefile mapping examples
 
 ### Agent support
 
@@ -57,8 +57,8 @@ Tracks what's done, what's next, and what's planned for project-starter-kit.
 
 ### Documentation
 
-- [x] **Architecture doc** — `docs/architecture.md` explains layering for contributors
-- [x] **"Bring your own stack" guide** — `docs/bring-your-own-stack.md` with step-by-step
+- [x] **Architecture doc** — `.kit/architecture.md` explains layering for contributors
+- [x] **"Bring your own stack" guide** — `.kit/bring-your-own-stack.md` with step-by-step
 
 ---
 
@@ -70,7 +70,7 @@ Tracks what's done, what's next, and what's planned for project-starter-kit.
 - [x] **Agent detection** — compose.sh detects installed agents (Claude Code, Cursor, Windsurf, OpenCode, Copilot)
 - [x] **bundle.xml generation** — `cli/bundle.sh` generates repomix bundles per variant
 - [x] **CLI integration tests** — `cli/test.sh` runs 20 tests covering compose, migrate, upgrade, health-check, validate
-- [x] **Git and GitHub doc** — `docs/git-and-github.md` covers commit hygiene, pre-commit hooks, fast test subsets, PR best practices, branch protection
+- [x] **Git and GitHub doc** — `.kit/git-and-github.md` covers commit hygiene, pre-commit hooks, fast test subsets, PR best practices, branch protection
 
 ---
 

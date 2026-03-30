@@ -9,7 +9,7 @@ The rules and docs below are **framework-agnostic** where possible. The example 
 React Native + Expo as a concrete starting point — adapt them to your stack.
 
 > **Using Flutter, .NET MAUI, or another framework?** The patterns (test both platforms,
-> handle offline, async-first) carry over. See `docs/stack-choice.md` for mapping guidance.
+> handle offline, async-first) carry over. See `.kit/stack-choice.md` for mapping guidance.
 > If your stack isn't covered, please open a PR — see CONTRIBUTING.md.
 
 ---
@@ -28,13 +28,13 @@ Then: `npm install && npx expo start`
 
 | Doc | Read when |
 |-----|-----------|
-| `docs/rn-expo-setup.md` | Starting a new RN+Expo project or configuring EAS |
-| `docs/mobile-testing.md` | Writing tests for mobile code |
-| `docs/navigation.md` | Setting up Expo Router or React Navigation |
-| `docs/offline-and-storage.md` | Implementing offline support, local storage |
-| `docs/push-notifications.md` | Adding push notification support |
-| `docs/stack-choice.md` | Evaluating RN vs Flutter vs other frameworks |
-| `docs/ota-updates.md` | Over-the-air update strategy with EAS Update |
+| `.kit/rn-expo-setup.md` | Starting a new RN+Expo project or configuring EAS |
+| `.kit/mobile-testing.md` | Writing tests for mobile code |
+| `.kit/navigation.md` | Setting up Expo Router or React Navigation |
+| `.kit/offline-and-storage.md` | Implementing offline support, local storage |
+| `.kit/push-notifications.md` | Adding push notification support |
+| `.kit/stack-choice.md` | Evaluating RN vs Flutter vs other frameworks |
+| `.kit/ota-updates.md` | Over-the-air update strategy with EAS Update |
 
 ---
 
@@ -66,5 +66,5 @@ We need a concrete example to show patterns. We chose RN + Expo because:
 - Best AI tooling support (Claude Code, Cursor, Copilot all have strong RN training data)
 
 **This is a recommendation, not a requirement.** The kit works with any mobile framework.
-See `docs/stack-choice.md` for when Flutter or another framework is the better call, and how
+See `.kit/stack-choice.md` for when Flutter or another framework is the better call, and how
 to map the kit patterns to your chosen stack.

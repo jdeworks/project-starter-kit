@@ -40,7 +40,7 @@ Configure in `electron-builder.yml` or `package.json`.
 
 ## Auto-update
 
-See `docs/auto-update.md` for implementing automatic updates.
+See `.kit/auto-update.md` for implementing automatic updates.
 
 ## CI/CD
 

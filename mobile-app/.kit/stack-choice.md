@@ -41,5 +41,5 @@ If you chose Flutter, the base layer still applies fully:
 - Replace Vitest architecture tests with equivalent Dart test patterns
 - The Makefile targets map to `flutter build`, `flutter test`, `flutter analyze`
 
-Document your Flutter-specific conventions in `docs/flutter-conventions.md` and reference
+Document your Flutter-specific conventions in `.kit/flutter-conventions.md` and reference
 it from AGENTS.md's doc table.

@@ -28,7 +28,7 @@ below are what hooks automate — do them by hand at the appropriate moment.
 ### After editing a file
 **Automated by:** Claude Code `PostToolUse`
 **Do manually:** After editing a source file:
-1. Check the file's LOC against limits in `docs/code-health.md`
+1. Check the file's LOC against limits in `.kit/code-health.md`
 2. Confirm no `console.log` was introduced
 3. Format the file if your editor doesn't auto-format
 

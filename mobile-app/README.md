@@ -2,7 +2,7 @@
 
 iOS + Android apps from a single codebase.
 
-**Example stack:** React Native + Expo (works with Flutter, .NET MAUI — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** React Native + Expo (works with Flutter, .NET MAUI — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -42,7 +42,7 @@ my-app/
 ├── package.json               # From starter — dependencies pre-configured
 ├── src/                       # From starter — app entry point and screens
 ├── tests/                     # From starter — test setup
-├── docs/
+├── .kit/
 │   ├── rn-expo-setup.md          # Project setup, EAS, TypeScript
 │   ├── mobile-testing.md         # Unit, component, integration, E2E
 │   ├── navigation.md             # Expo Router, React Navigation, deep links

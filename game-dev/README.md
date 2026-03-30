@@ -2,7 +2,7 @@
 
 Browser-native 2D and 3D games running in the browser.
 
-**Example stack:** Phaser 3 (works with PixiJS, Three.js, Babylon.js — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** Phaser 3 (works with PixiJS, Three.js, Babylon.js — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -42,7 +42,7 @@ my-game/
 ├── package.json           # From starter — dependencies pre-configured
 ├── src/                   # From starter — game entry point and scaffolding
 ├── tests/                 # From starter — test setup
-├── docs/
+├── .kit/
 │   ├── game-architecture.md   # Scenes, entities, systems, ECS
 │   ├── asset-management.md    # Loading, organizing, optimizing assets
 │   ├── game-loop.md           # Update/render cycle, delta time, fixed timestep

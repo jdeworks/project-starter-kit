@@ -2,7 +2,7 @@
 
 Static sites, server-rendered websites, blogs, portfolios, and landing pages.
 
-**Example stack:** Vite + vanilla JS (works with any framework — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** Vite + vanilla JS (works with any framework — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -42,7 +42,7 @@ my-site/
 ├── package.json         # From starter — dependencies pre-configured
 ├── src/                 # From starter — site entry point and scaffolding
 ├── tests/               # From starter — test setup
-├── docs/
+├── .kit/
 │   ├── getting-started.md
 │   ├── stack-choice.md
 │   ├── project-structure.md
@@ -69,13 +69,13 @@ Open your AI agent and say:
 
 | Doc | Read when |
 |-----|-----------|
-| [getting-started.md](docs/getting-started.md) | Starting a new website — guided workflow from idea to setup |
-| [stack-choice.md](docs/stack-choice.md) | Choosing between vanilla, React, Astro, Next.js, etc. |
-| [project-structure.md](docs/project-structure.md) | Organizing files for static, SPA, or server-rendered sites |
-| [design-and-styling.md](docs/design-and-styling.md) | Styling, Tailwind CSS, responsive design, accessibility |
-| [security.md](docs/security.md) | Secrets, input validation, dependencies |
-| [hosting-static.md](docs/hosting-static.md) | GitHub Pages, Vercel, Netlify, Cloudflare Pages |
-| [hosting-server.md](docs/hosting-server.md) | Railway, Fly.io, Docker |
-| [cicd.md](docs/cicd.md) | GitHub Actions CI/CD |
-| [react-upgrade.md](docs/react-upgrade.md) | Upgrading vanilla JS to React |
-| [prerequisites.md](docs/prerequisites.md) | Node.js, editor, Git setup (for beginners) |
+| [getting-started.md](.kit/getting-started.md) | Starting a new website — guided workflow from idea to setup |
+| [stack-choice.md](.kit/stack-choice.md) | Choosing between vanilla, React, Astro, Next.js, etc. |
+| [project-structure.md](.kit/project-structure.md) | Organizing files for static, SPA, or server-rendered sites |
+| [design-and-styling.md](.kit/design-and-styling.md) | Styling, Tailwind CSS, responsive design, accessibility |
+| [security.md](.kit/security.md) | Secrets, input validation, dependencies |
+| [hosting-static.md](.kit/hosting-static.md) | GitHub Pages, Vercel, Netlify, Cloudflare Pages |
+| [hosting-server.md](.kit/hosting-server.md) | Railway, Fly.io, Docker |
+| [cicd.md](.kit/cicd.md) | GitHub Actions CI/CD |
+| [react-upgrade.md](.kit/react-upgrade.md) | Upgrading vanilla JS to React |
+| [prerequisites.md](.kit/prerequisites.md) | Node.js, editor, Git setup (for beginners) |

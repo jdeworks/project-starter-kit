@@ -27,7 +27,7 @@ health_snapshot: LOC=<n>, tests=<n>, complexity=ok|warn|fail
 - Use the same `session-<id>` for both start and end entries.
 - `tests_added` is required for `type: fix` — every fix needs a regression test.
 - Do not edit past entries. Append only.
-- See `docs/changelog-protocol.md` for full details.
+- See `.kit/changelog-protocol.md` for full details.
 
 ---
 <!-- Entries below — newest at bottom -->

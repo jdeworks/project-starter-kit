@@ -2,7 +2,7 @@
 
 Backend API development — REST or GraphQL — without a frontend.
 
-**Example stack:** Node.js + Hono (works with any backend framework — see [docs/stack-choice.md](docs/stack-choice.md))
+**Example stack:** Node.js + Hono (works with any backend framework — see [.kit/stack-choice.md](.kit/stack-choice.md))
 
 ## Get started
 
@@ -42,7 +42,7 @@ my-api/
 ├── package.json         # From starter — dependencies pre-configured
 ├── src/                 # From starter — API entry point and scaffolding
 ├── tests/               # From starter — test setup
-├── docs/
+├── .kit/
 │   ├── api-design.md       # REST conventions, status codes, response shapes
 │   ├── database.md         # ORM, migrations, schema conventions
 │   ├── auth.md             # JWT, sessions, API keys, OAuth

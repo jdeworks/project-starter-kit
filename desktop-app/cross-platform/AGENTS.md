@@ -10,7 +10,7 @@ or another cross-platform desktop framework. The example commands use Tauri 2 as
 starting point — adapt them to your stack.
 
 > **Using a different framework?** The patterns (IPC boundaries, native API access, packaging)
-> carry over. See `docs/stack-choice.md` for mapping guidance.
+> carry over. See `.kit/stack-choice.md` for mapping guidance.
 > If your stack isn't covered, please open a PR — see CONTRIBUTING.md.
 
 ---
@@ -24,7 +24,7 @@ Pick a starter when composing your project — each gives you a working hello-wo
 
 Then: `npm install && npm run dev`
 
-See `docs/stack-choice.md` for a full comparison.
+See `.kit/stack-choice.md` for a full comparison.
 
 ---
 
@@ -32,11 +32,11 @@ See `docs/stack-choice.md` for a full comparison.
 
 | Doc | Read when |
 |-----|-----------|
-| `docs/ipc-and-commands.md` | Communicating between frontend (webview) and backend (native) |
-| `docs/native-apis.md` | Accessing filesystem, notifications, system tray, clipboard |
-| `docs/packaging.md` | Building installers for Windows (.msi), macOS (.dmg), Linux (.deb/.AppImage) |
-| `docs/auto-update.md` | Implementing automatic updates |
-| `docs/stack-choice.md` | Choosing between Tauri, Electron, Wails, or other frameworks |
+| `.kit/ipc-and-commands.md` | Communicating between frontend (webview) and backend (native) |
+| `.kit/native-apis.md` | Accessing filesystem, notifications, system tray, clipboard |
+| `.kit/packaging.md` | Building installers for Windows (.msi), macOS (.dmg), Linux (.deb/.AppImage) |
+| `.kit/auto-update.md` | Implementing automatic updates |
+| `.kit/stack-choice.md` | Choosing between Tauri, Electron, Wails, or other frameworks |
 
 ---
 
@@ -68,4 +68,4 @@ We need a concrete example to show patterns. We chose Tauri 2 because:
 - Supports any web framework for the frontend
 
 **This is a recommendation, not a requirement.** Electron is more mature with a larger
-ecosystem. Wails is excellent for Go teams. See `docs/stack-choice.md` for guidance.
+ecosystem. Wails is excellent for Go teams. See `.kit/stack-choice.md` for guidance.
