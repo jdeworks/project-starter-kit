@@ -3,6 +3,8 @@
 A structured foundation for AI-assisted software projects. Designed so AI agents (Claude Code,
 OpenCode, Cursor, and others) produce maintainable code from day one — not just working code.
 
+**Works great with [think-tank](https://github.com/jdeworks/think-tank)** — use think-tank to plan your project through AI-guided conversation, then scaffold it here with a starter template. Think first, build right.
+
 ## The problem this solves
 
 AI agents are excellent at building fast. They're poor at keeping code healthy as it grows —
