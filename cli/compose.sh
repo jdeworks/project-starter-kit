@@ -147,6 +147,7 @@ echo "Done. Files written to: $TARGET"
 echo ""
 echo "Next steps:"
 echo "  cd $TARGET"
+[ -f "$TARGET/package.json" ] && echo "  npm install"
 echo "  Tell your agent: 'Read AGENTS.md and tell me what mode we're in'"
 [ "$MODE" = "lean" ] && echo "  Lean mode. Upgrade anytime: bash cli/upgrade.sh"
-if [ -n "${DETECTED_STACK:-}" ] && [ "$DETECTED_STACK" != "node" ]; then echo "  Stack: $DETECTED_STACK — see .kit/bring-your-own-stack.md"; fi
+exit 0

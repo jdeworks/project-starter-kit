@@ -20,25 +20,31 @@ if [ -f "AGENTS.md" ] && grep -q 'Default: \*\*lean\*\*' AGENTS.md 2>/dev/null; 
   mode="lean"
 fi
 
+# Only look at real entries (after the marker), not template examples
+entries_section=""
+if [ -f "CHANGES.md" ]; then
+  entries_section=$(sed -n '/<!-- Entries below/,$p' CHANGES.md 2>/dev/null || echo "")
+fi
+
 # Detect abandoned sessions (started but never completed)
 abandoned=""
-if [ -f "CHANGES.md" ]; then
+if [ -n "$entries_section" ]; then
   while IFS= read -r line; do
     sid=$(echo "$line" | sed -n 's/.*session-\([^ |]*\).*/\1/p')
     [ -z "$sid" ] && continue
-    if ! grep -q "session-$sid | status: completed" CHANGES.md 2>/dev/null; then
-      intent=$(grep -A1 "session-$sid | status: started" CHANGES.md | tail -1 | sed 's/^intent: //')
+    if ! echo "$entries_section" | grep -q "session-$sid | status: completed" 2>/dev/null; then
+      intent=$(echo "$entries_section" | grep -A1 "session-$sid | status: started" | tail -1 | sed 's/^intent: //')
       abandoned+="  - session-$sid: $intent\n"
     fi
-  done < <(grep 'status: started' CHANGES.md 2>/dev/null)
+  done < <(echo "$entries_section" | grep 'status: started' 2>/dev/null)
 fi
 
 # Inject recent CHANGES.md entries
 recent=""
-if [ -f "CHANGES.md" ]; then
-  recent=$(grep -A7 '^## \[' CHANGES.md | tail -30 2>/dev/null || echo "")
+if [ -n "$entries_section" ]; then
+  recent=$(echo "$entries_section" | grep -A7 '^## \[' | tail -30 2>/dev/null || echo "")
   # Check for fix hotspots
-  fix_areas=$(grep -B1 'type: fix' CHANGES.md 2>/dev/null \
+  fix_areas=$(echo "$entries_section" | grep -B1 'type: fix' 2>/dev/null \
     | grep '^files_touched:' \
     | sed 's/files_touched: //' \
     | tr ',' '\n' \
