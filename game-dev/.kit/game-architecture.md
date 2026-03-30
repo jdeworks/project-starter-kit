@@ -104,6 +104,19 @@ lightweight and zero-dependency. No need for Howler.js or @pixi/sound. Pattern:
 - Oscillator + gain envelope per sound effect
 - Keep a small library of generator functions (jump, collect, hit, explosion)
 
+## Screen orientation
+
+Mobile games usually need a locked orientation. A reliable approach uses three layers:
+1. **Viewport meta tag** — `interactive-widget=resizes-content` for proper mobile layout
+2. **Web App Manifest** — `"orientation": "portrait"` (or `"landscape"`) in `manifest.json`
+3. **CSS fallback** — show a "please rotate" overlay via `@media (orientation: landscape)`
+   for browsers that ignore the manifest
+
+For tilt/motion controls, prefer `DeviceMotionEvent` (accelerometer) over
+`DeviceOrientationEvent` (gyroscope) — accelerometer gives direct gravity vectors
+which are simpler to map to movement. iOS requires an explicit permission request
+via `DeviceMotionEvent.requestPermission()`.
+
 ## Countdown and transitions
 
 Starting a game with a black screen + countdown, then suddenly showing everything
