@@ -38,7 +38,7 @@ Read these when the situation calls for it. Do not load all of them upfront.
 
 | Doc | Read when |
 |-----|-----------|
-| `.kit/code-health.md` | A file is getting large, complex, or you're unsure about structure |
+| `.kit/code-health.md` | Starting a new feature, adding files, or a file is getting large/complex |
 | `.kit/testing.md` | Writing or reviewing tests; starting a new feature |
 | `.kit/llm-testing.md` | Adding or modifying any code that calls an LLM |
 | `.kit/changelog-protocol.md` | End of session, before compressing context, or after removing symbols |
