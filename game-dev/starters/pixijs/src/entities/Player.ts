@@ -1,6 +1,6 @@
-/** Pure game state logic — no PixiJS imports. */
+/** Pure game logic — no PixiJS imports. */
 
-export interface GameState {
+export interface PlayerState {
   x: number;
   y: number;
   vx: number;
@@ -8,27 +8,21 @@ export interface GameState {
   size: number;
 }
 
-export function createGameState(
-  width: number,
-  height: number,
-  size: number = 50,
-): GameState {
-  return {
-    x: width / 2,
-    y: height / 2,
-    vx: 3,
-    vy: 2,
-    size,
-  };
+export function createPlayer(
+  x: number,
+  y: number,
+  size: number,
+): PlayerState {
+  return { x, y, vx: 3, vy: 2, size };
 }
 
-export function update(
-  state: GameState,
+export function updatePlayer(
+  player: PlayerState,
   boundsWidth: number,
   boundsHeight: number,
-): GameState {
-  let { x, y, vx, vy } = state;
-  const { size } = state;
+): PlayerState {
+  let { x, y, vx, vy } = player;
+  const { size } = player;
 
   x += vx;
   y += vy;

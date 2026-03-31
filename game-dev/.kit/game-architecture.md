@@ -2,31 +2,74 @@
 
 Structuring game code for maintainability.
 
-## Scene-based organization
+## Create the directory structure first
 
-Every distinct game screen is its own scene:
+Set up the folder hierarchy before writing game logic. This is the single most impactful
+decision for long-term maintainability. Even if most folders start with one small file,
+the structure guides where new code goes — without it, everything lands in `main.ts`.
 
 ```
 src/
+  main.ts             # Thin bootstrap (~20 LOC) — init app, delegate to scene
   scenes/
-    Boot.ts           # Load minimal assets, show loading screen
-    Preloader.ts      # Load all game assets
+    GameScene.ts      # Main game loop — wires entities + systems + rendering
+  entities/
+    Player.ts         # Player state and logic (NO rendering imports)
+  systems/
+    Physics.ts        # Collision detection, movement
+  config/
+    constants.ts      # Game constants (speed, sizes, tuning)
+  rendering/
+    sprites.ts        # PixiJS/Phaser sprite creation (rendering ONLY)
+```
+
+As the game grows, add folders and files — don't grow existing ones:
+
+```
+  scenes/
     MainMenu.ts       # Title screen, settings
-    GamePlay.ts       # Main game loop
     GameOver.ts       # Score display, retry
   entities/
-    Player.ts         # Player logic and state
     Enemy.ts          # Enemy behavior
     Projectile.ts     # Bullets, arrows, etc.
   systems/
-    Physics.ts        # Collision detection, movement
     Scoring.ts        # Score tracking, combos
     Audio.ts          # Sound effect management
+    Input.ts          # Keyboard, touch, tilt
+  ui/
+    HUD.ts            # In-game overlay
+  services/
+    Analytics.ts      # External integrations
   config/
-    constants.ts      # Game constants (speed, sizes, tuning)
     assets.ts         # Asset keys and paths
-  main.ts             # Game initialization
 ```
+
+## Entry point discipline
+
+`main.ts` should be a thin bootstrap — **under 30 LOC**. It creates the app, hands off to a
+scene or launcher, and nothing else. If your main file is growing past 50 LOC, you're wiring
+features in the wrong place.
+
+```typescript
+// GOOD — main.ts delegates immediately
+import { Application } from "pixi.js";
+import { GameScene } from "./scenes/GameScene";
+
+async function main() {
+  const app = new Application();
+  await app.init({ width: 800, height: 600 });
+  document.getElementById("game")!.appendChild(app.canvas);
+  new GameScene(app).start();
+}
+main();
+```
+
+If you need a title screen, game-over screen, settings, etc. — create a launcher or scene
+manager, not a bigger main.ts.
+
+## Scene-based organization
+
+Every distinct game screen is its own scene:
 
 ## Separate logic from rendering
 
@@ -135,3 +178,18 @@ Starting a game with a black screen + countdown, then suddenly showing everythin
 feels jarring. Instead: render the full scene (frozen) during countdown. Call `render()`
 during countdown ticks but skip `update()` logic. The player sees the world they're
 about to play in.
+
+## Testing rendering code
+
+"Rendering is tested manually" is not a strategy — it's how 30+ files end up with zero tests.
+You can't test pixels in Node, but you can test the rendering *layer*:
+
+- **Smoke tests** — mock the engine, call the render function, verify it doesn't throw
+- **Contract tests** — verify render functions receive the right state shape
+- **Configuration tests** — particle configs, animation timings, sprite definitions are pure
+  data — test that they have required fields and valid ranges
+- **State sync tests** — verify that the scene's update loop produces the right calls
+  (e.g., sprite position matches entity position after update)
+
+The goal isn't pixel-perfect validation — it's catching regressions when someone refactors
+entity state or renames a config key. A thin mock of the engine is enough.

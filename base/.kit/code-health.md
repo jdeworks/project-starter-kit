@@ -23,6 +23,32 @@ retroactive splitting costs a full refactor session.
 This is expensive because it requires re-wiring imports, moving tests, and updating references —
 work that wouldn't exist if the structure was right from the start.
 
+## Entry point discipline
+
+`main.ts` (or equivalent) should initialize the app and delegate — never contain business logic.
+Target: **under 50 LOC**. If your main file is growing, you're wiring things in the wrong place.
+
+Pattern: `main.ts` → launcher/app setup → scene/route/controller. Each layer delegates to the
+next. This prevents main from becoming a dumping ground for every new feature.
+
+## Test parity
+
+When you create a new source file, create its test file in the same commit. Don't batch test
+creation for "later" — later never comes, and untested files accumulate silently.
+
+The health check warns when source files have no corresponding test. Not every file needs
+deep tests (thin rendering wrappers may just need a smoke test), but every file should have
+*something* that breaks if the file's contract changes.
+
+## Commit size
+
+If a single commit touches more than ~20 files or adds more than ~1,000 LOC, it probably should
+have been multiple commits. Large commits are hard to review, hard to revert, and hard for agents
+to learn from in `git log`.
+
+Break work into logical units: one commit per feature, one for the refactor, one for the tests.
+This also makes `CHANGES.md` entries more meaningful.
+
 ## File size limits
 
 | Type | Soft limit | Hard limit |
