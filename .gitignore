@@ -13,3 +13,6 @@ coverage/
 Thumbs.db
 *.zip
 *.zip:Zone.Identifier
+.claude/.progress-counter
+.claude/projects/
+**/package-lock.json
