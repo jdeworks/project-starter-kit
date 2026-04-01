@@ -52,6 +52,14 @@ if [ -f "AGENTS.md" ] && grep -q 'Default: \*\*lean\*\*' AGENTS.md 2>/dev/null; 
   mode="lean"
 fi
 
+# ── Rotate old completed sessions before reading ─────────────────────────────
+if [ -f "scripts/rotate-changes.sh" ] && [ -f "CHANGES.md" ]; then
+  rotation_output=$(bash scripts/rotate-changes.sh 2>&1 || true)
+  if [ -n "$rotation_output" ]; then
+    output+="### Changes rotation\n${rotation_output}\n\n"
+  fi
+fi
+
 # Only look at real entries (after the marker), not template examples
 entries_section=""
 if [ -f "CHANGES.md" ]; then
