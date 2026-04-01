@@ -116,9 +116,14 @@ for project_dir in "$SEARCH_DIR"/*/; do
   if [ "$can_push" = true ]; then
     # ── Own repo: update + commit ──────────────────────────────────────────
     if [ "$MODE" != "--auto" ]; then
-      printf "    Update %s? [y/N] " "$project_name"
-      read -r answer < /dev/tty 2>/dev/null || answer="n"
-      [[ "$answer" != [yY]* ]] && echo "    Skipped." && continue
+      if [ -t 0 ]; then
+        printf "    Update %s? [y/N] " "$project_name"
+        read -r answer
+        [[ "$answer" != [yY]* ]] && echo "    Skipped." && continue
+      else
+        echo "    Skipping $project_name (non-interactive, use --auto to force)."
+        continue
+      fi
     fi
 
     echo "    Updating $project_name..."
@@ -126,9 +131,12 @@ for project_dir in "$SEARCH_DIR"/*/; do
     update_status=$?
 
     if [ $update_status -eq 0 ]; then
-      # Commit the update
+      # Commit the update — only stage kit-owned files, never project code
       cd "$project_dir"
-      git add -A .claude/ .opencode/ .cursor/ .windsurf/ .github/ scripts/ .kit/ AGENTS.md .gitignore 2>/dev/null || true
+      git add .claude/hooks/ .claude/settings.json .claude/KIT_VERSION \
+              .opencode/ .cursor/ .windsurf/ .github/copilot-instructions.md \
+              scripts/health-check.sh scripts/analyze-changes.sh scripts/rotate-changes.sh \
+              .kit/ AGENTS.md 2>/dev/null || true
       # Only commit if there are staged changes
       if ! git diff --cached --quiet 2>/dev/null; then
         git commit -m "chore: Update starter-kit to $kit_version
