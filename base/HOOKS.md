@@ -21,9 +21,23 @@ below are what hooks automate — do them by hand at the appropriate moment.
 
 ### On session start
 **Automated by:** Claude Code `SessionStart`, OpenCode `session_start`
-**Do manually:** At the start of every session, read:
-1. `SESSION_SUMMARY.md` — what happened last session and what's next
-2. The last 3 entries in `CHANGES.md` — recent symbol changes and dead code signals
+**Do manually:** At the start of every session:
+1. Run `git diff --cached` — **stale staged changes persist silently** across sessions (`git checkout`
+   won't touch them). If staged deletions or modifications exist, review before doing anything else.
+   Commit what's good, `git reset HEAD` what's not.
+2. Read `SESSION_SUMMARY.md` — what happened last session and what's next
+3. Check `CHANGES.md` for **abandoned sessions** (started but never completed) — complete or mark abandoned
+4. Check for **dead code** — symbols in `(removed: ...)` progress lines or `symbols_removed` that still appear in source. Clean up before starting new work.
+5. Check the last 3 entries for **fix hotspots** — areas with repeated fixes need better test coverage
+6. Write a `started` entry in CHANGES.md with your session intent
+
+### After completing a unit of work
+**Automated by:** Claude Code `UserPromptSubmit` (periodic reminder)
+**Do manually:** After finishing each logical chunk (bug fix, feature, refactor step):
+1. Append a `- progress:` line under the current session in CHANGES.md
+2. If you removed or renamed symbols, note them: `(removed: SymbolName)`
+3. **Commit** the chunk — keep the tree clean (every file committed or gitignored)
+4. Do this **before** moving to the next task — don't batch at the end
 
 ### After editing a file
 **Automated by:** Claude Code `PostToolUse`
@@ -37,12 +51,12 @@ below are what hooks automate — do them by hand at the appropriate moment.
 **Do manually:** Before starting a new session or compressing context:
 1. Run `bash scripts/analyze-changes.sh` — detects dead code from CHANGES.md
 2. Fill in "Next steps" in `SESSION_SUMMARY.md`
-3. Ensure CHANGES.md has an entry for the current session (if full mode)
+3. Ensure CHANGES.md has progress lines for all work done so far
 
 ### At session end
 **Automated by:** Claude Code `Stop`, OpenCode `session_end`
 **Do manually:** Before ending a session:
-1. Append an entry to `CHANGES.md` if you removed symbols or are in full mode
+1. Append a `completed` entry to CHANGES.md summarizing the session
 2. Run `make check` if you haven't already
 3. Update "Next steps" in `SESSION_SUMMARY.md`
 
