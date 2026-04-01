@@ -201,35 +201,36 @@ if [ -n "$VARIANT" ] && [ -d "$KIT/$VARIANT/.kit" ]; then
 fi
 
 # ── Migrate docs/ → .kit/ if old layout exists ─────────────────────────────
-if [ -d "$TARGET/docs" ] && [ ! -d "$TARGET/.kit" ]; then
-  echo "==> Migrating docs/ → .kit/ (old layout detected)..."
-  if [ "$DRY_RUN" = true ]; then
-    echo "  MIGRATE: docs/ → .kit/"
-  else
-    mv "$TARGET/docs" "$TARGET/.kit"
-    echo "  MIGRATE: docs/ → .kit/"
-  fi
-  updated=$((updated + 1))
-elif [ -d "$TARGET/docs" ] && [ -d "$TARGET/.kit" ]; then
-  echo "==> Migrating remaining docs/ files → .kit/..."
-  while IFS= read -r -d '' f; do
-    rel="${f#$TARGET/docs/}"
-    if [ ! -f "$TARGET/.kit/$rel" ]; then
-      if [ "$DRY_RUN" = true ]; then
-        echo "  MIGRATE: docs/$rel → .kit/$rel"
-      else
-        mkdir -p "$(dirname "$TARGET/.kit/$rel")"
-        mv "$f" "$TARGET/.kit/$rel"
-        echo "  MIGRATE: docs/$rel → .kit/$rel"
+# Only migrate .md files from docs/ — non-markdown files (HTML, JS, audio, etc.)
+# are likely build output (e.g. GitHub Pages) and should stay in docs/.
+if [ -d "$TARGET/docs" ]; then
+  kit_md_count=$(find "$TARGET/docs" -maxdepth 1 -name "*.md" -type f 2>/dev/null | wc -l | tr -d '[:space:]')
+  if [ "$kit_md_count" -gt 0 ]; then
+    echo "==> Migrating docs/*.md → .kit/ (old layout detected)..."
+    while IFS= read -r -d '' f; do
+      rel="${f#$TARGET/docs/}"
+      if [ ! -f "$TARGET/.kit/$rel" ]; then
+        if [ "$DRY_RUN" = true ]; then
+          echo "  MIGRATE: docs/$rel → .kit/$rel"
+        else
+          mkdir -p "$(dirname "$TARGET/.kit/$rel")"
+          mv "$f" "$TARGET/.kit/$rel"
+          echo "  MIGRATE: docs/$rel → .kit/$rel"
+        fi
+        updated=$((updated + 1))
       fi
-      updated=$((updated + 1))
+    done < <(find "$TARGET/docs" -type f -name "*.md" -print0 2>/dev/null)
+    # Only remove docs/ if it's now empty (no build output left)
+    if [ "$DRY_RUN" = false ]; then
+      remaining=$(find "$TARGET/docs" -type f 2>/dev/null | wc -l | tr -d '[:space:]')
+      if [ "$remaining" -eq 0 ]; then
+        rm -rf "$TARGET/docs"
+        echo "  REMOVE: docs/ (empty after migration)"
+        removed=$((removed + 1))
+      else
+        echo "  NOTE: docs/ still has $remaining non-markdown file(s) — kept (likely build output)"
+      fi
     fi
-  done < <(find "$TARGET/docs" -type f -print0 2>/dev/null)
-  if [ "$DRY_RUN" = false ]; then
-    # Remove docs/ entirely — all content is now in .kit/
-    rm -rf "$TARGET/docs"
-    echo "  REMOVE: docs/ (migrated to .kit/)"
-    removed=$((removed + 1))
   fi
 fi
 
