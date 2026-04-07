@@ -5,4 +5,9 @@ export default defineConfig({
   build: {
     outDir: "dist",
   },
+  server: {
+    watch: {
+      ignored: ["**/.claude/**", "**/.kit/**", "**/CHANGES.md", "**/SESSION_SUMMARY.md", "**/server/**"],
+    },
+  },
 });

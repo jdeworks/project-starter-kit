@@ -63,6 +63,14 @@ adding more code. The health-check script warns at soft, fails at hard.
 **How to split:** Extract by responsibility, not by size. A 300-line file with one clear job is fine.
 A 200-line file doing three unrelated things needs splitting even if it's under the limit.
 
+**Extract before expanding.** When a file approaches the soft limit, extract the next
+responsibility *before* adding new code. Don't wait for the hard limit — by then the
+extraction is an emergency and the split points are harder to find. The pattern:
+
+1. File at soft limit → identify the most separable responsibility
+2. Extract to a new file with a clean interface
+3. Then add your new code to whichever file it belongs in
+
 ## Function size limits
 
 | Type | Soft limit | Hard limit |
@@ -97,6 +105,21 @@ and don't always clean up what they replaced.
 - Check `CHANGES.md` — any `symbols_removed` entry that's more than 2 sessions old and
   still appears in grep results is confirmed dead code
 - Dead code is not a style issue — it's a navigation tax on every future session
+
+## Dead code from provider switches
+
+When switching libraries or providers (e.g. replacing one TTS engine with another, swapping
+an auth library), import analysis alone misses string constants like `"HUME_AI"` or
+`"old-provider"` that may linger in config objects, switch statements, or type unions.
+
+After a major provider switch:
+
+1. **Grep for the old name** as a string literal across the entire codebase (`rg "OLD_PROVIDER"`)
+2. **Check enum/union types** — old variants may still compile but never match at runtime
+3. **Schedule an explicit cleanup session** within 1-2 sessions of the switch
+4. **Log removed symbols** in CHANGES.md so future sessions can verify cleanup was complete
+
+The pattern: switch provider -> ship it working -> next session, grep and clean.
 
 ## What the health check does NOT enforce
 

@@ -107,6 +107,38 @@ Or drag-and-drop your `dist/` folder at app.netlify.com.
 Connect your GitHub repo at dash.cloudflare.com → Pages. Set build command to `npm run build`
 and output directory to `dist`.
 
+## Dev vs. production feature gating
+
+Use this pattern to detect dev environments and hide dev-only features on production (e.g. GitHub Pages):
+
+```typescript
+export const IS_DEV = typeof window !== "undefined" &&
+  (window.location.hostname === "localhost" ||
+   window.location.hostname === "127.0.0.1" ||
+   window.location.hostname.endsWith(".trycloudflare.com"));
+```
+
+Mark providers or features with `devOnly: true` and filter them in the UI:
+
+```typescript
+const providers = allProviders.filter(p => IS_DEV || !p.devOnly);
+```
+
+This keeps debug tools, local-only TTS providers, mock APIs, etc. out of the production build
+without `#ifdef`-style conditionals scattered through the codebase.
+
+## Cloudflare tunnel for mobile testing
+
+When using Cloudflare tunnels (`cloudflared tunnel`) to test on mobile devices, Vite blocks
+external hostnames by default. Add this to `vite.config.ts`:
+
+```typescript
+preview: { allowedHosts: true },
+```
+
+This allows the tunnel hostname through during `vite preview`. For `vite dev`, use
+`server: { host: true }` as well.
+
 ## Verify
 
 - [ ] Site loads at the deployed URL

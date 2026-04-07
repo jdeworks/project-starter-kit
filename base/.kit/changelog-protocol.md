@@ -216,3 +216,12 @@ sessions. Git history preserves all removed entries (`git log -p -- CHANGES.md`)
 This prevents the file from growing unbounded and bloating context injection. The rotation
 is performed by `scripts/rotate-changes.sh`, invoked from `session-start.sh`. You can test
 it with `bash scripts/rotate-changes.sh --dry-run`.
+
+---
+
+## Retrospective
+
+At project completion or a major milestone, write a Lessons Learned section in the README.
+See `.kit/retrospective.md` for the template and structure. This captures what worked, what
+didn't, and what you'd do differently — valuable context for future projects using this
+starter kit.
