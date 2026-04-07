@@ -56,9 +56,14 @@ See `.kit/stack-choice.md` for a full comparison.
 Game code tends to grow. Budget accordingly:
 ```
 SOFT_FILE_LOC=300
-HARD_FILE_LOC=400
+HARD_FILE_LOC=450
 LOC_BUDGET=15000
 ```
+
+> **Formatter vs LOC budget:** Prettier with default printWidth (80) expands multi-parameter
+> TypeScript signatures, pushing files past the hard limit. The starters ship with
+> `printWidth: 100` to balance readability with the LOC budget. If you still hit the limit
+> after formatting, extract by responsibility — don't fight the formatter.
 
 ---
 
