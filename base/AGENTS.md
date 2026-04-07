@@ -47,6 +47,7 @@ Read these when the situation calls for it. Do not load all of them upfront.
 | `.kit/modules/full.md` | Switching to full mode mid-session |
 | `.kit/modules/lean.md` | Switching to lean mode mid-session |
 | `.kit/git-and-github.md` | Commit hygiene, branching, pre-commit hooks, PR best practices |
+| `.kit/retrospective.md` | End of project/milestone — writing a "Lessons Learned" section for the README |
 
 ---
 

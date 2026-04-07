@@ -105,6 +105,7 @@ project-starter-kit/
 │       ├── context-management.md # Context compression, session handoff
 │       ├── research-planning.md  # Feature specs, architecture decisions
 │       ├── git-and-github.md    # Commits, pre-commit hooks, PRs, branching
+│       ├── retrospective.md     # Lessons learned template for README
 │       ├── architecture.md      # How this kit is structured (for contributors)
 │       ├── bring-your-own-stack.md # Adapting the kit to unlisted frameworks
 │       └── modules/
@@ -280,9 +281,11 @@ Projects built with the starter kit. Want yours listed? Open a PR.
 |---------|-----------|-------|
 | Make It Look Good — design knowledge base for AI agents | base (no variant) | [GitHub](https://github.com/jdeworks/make-it-look-good) |
 
-### Websites
+### Websites & Web Apps
 
-*Coming soon*
+| Project | Built with | Links |
+|---------|-----------|-------|
+| Narratu — AI-powered audiobook creator | website + Vite + React | [GitHub](https://github.com/jdeworks/narratu) · [Demo](https://jdeworks.github.io/narratu/) |
 
 ### APIs & Services
 
