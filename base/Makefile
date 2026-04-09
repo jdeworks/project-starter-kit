@@ -73,10 +73,20 @@ analyze: ## Analyze CHANGES.md for dead code signals, update SESSION_SUMMARY.md
 ## ── Browser verification ─────────────────────────────────────────────────
 
 e2e: ## Run Playwright e2e tests (requires dev server running)
-	@if [ -f playwright.config.ts ] || [ -f playwright.config.js ] || [ -f apps/*/playwright.config.ts ]; then \
-		npx playwright test; \
-	else \
+	@configs=""; \
+	for cfg in playwright.config.ts playwright.config.js; do \
+		[ -f "$$cfg" ] && configs="$$configs $$cfg"; \
+	done; \
+	for cfg in apps/*/playwright.config.ts apps/*/playwright.config.js; do \
+		[ -f "$$cfg" ] && configs="$$configs $$cfg"; \
+	done; \
+	if [ -z "$$configs" ]; then \
 		echo "No playwright config found — skipping e2e"; \
+	else \
+		for cfg in $$configs; do \
+			echo "── Running Playwright: $$cfg ──"; \
+			npx playwright test --config "$$cfg"; \
+		done; \
 	fi
 
 verify: check e2e ## Full verification pipeline (check + e2e browser tests)
