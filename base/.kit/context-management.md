@@ -64,6 +64,40 @@ For features that will take many sessions:
 
 ---
 
+## Task boundary discipline
+
+Context degrades over time. Prefer many small, verified sessions over one long session.
+
+### Never start a new task with a broken current task
+
+If the current task hasn't passed `make verify` (or `make check`), do not start a new one.
+Fix what's broken first. Starting new work on top of broken work compounds the problem.
+
+### Compress at task boundaries
+
+If context is getting long (~50% through or the agent starts forgetting earlier decisions):
+1. Finish the current task
+2. Run `make verify` — everything must pass
+3. Commit all passing work
+4. Log completed entry in CHANGES.md
+5. Then start a new session
+
+The next session starts with a clean, verified codebase and clear SESSION_SUMMARY.md.
+
+### Each session leaves the project working
+
+Every session should end with:
+- All tests passing
+- No console errors
+- Work committed
+- CHANGES.md updated
+
+If a session ends with broken state, the next session wastes time re-establishing context
+and debugging issues from the previous session. This is the most common source of
+quality degradation in multi-session work.
+
+---
+
 ## What not to put in AGENTS.md
 
 AGENTS.md loads into every session. If it's too long, the agent's instruction adherence drops.

@@ -83,13 +83,65 @@ If your project makes no LLM calls, skip Tier 3. Note this in AGENTS.md.
 
 ---
 
+## Tier 4 — Browser verification (full mode, projects with UI)
+
+If the project has a user interface, runtime verification in a real browser is required. Unit tests
+alone miss console errors, broken layouts, and interaction bugs.
+
+**What's checked:**
+- Page loads without console errors or uncaught exceptions
+- Core user flows complete without errors
+- Touch targets meet accessibility minimums (44px)
+- No horizontal overflow on mobile viewports
+- Input font sizes prevent iOS auto-zoom (>= 16px)
+
+**Required test: console error gate**
+
+Every project with UI must have at minimum:
+
+```ts
+import { test, expect } from '@playwright/test'
+
+test('no console errors on page load', async ({ page }) => {
+  const errors: string[] = []
+  page.on('pageerror', err => errors.push(err.message))
+  await page.goto('/')
+  await page.waitForTimeout(2000)
+  expect(errors).toHaveLength(0)
+})
+```
+
+**Screenshot capture:**
+
+Configure Playwright to capture screenshots on failure for debugging:
+
+```ts
+// playwright.config.ts
+use: {
+  screenshot: 'only-on-failure',
+  trace: 'retain-on-failure',
+}
+```
+
+**When to run:** After any UI change. Run via `make e2e` (standalone) or `make verify` (full pipeline).
+
+For monorepos: after changing a shared package, run e2e for ALL consuming apps.
+
+See `.kit/verification.md` for the full "definition of done" checklist.
+
+---
+
 ## Running tests
 
 ```bash
-make test           # all tiers
+make test           # tiers 1-3
 make test-feature   # tier 1 only
 make health         # tier 2 only (architecture)
+make e2e            # tier 4 only (browser — requires dev server)
+make check          # full quality pipeline (tiers 1-3 + lint + types + health)
+make verify         # check + e2e (the gold standard for "done")
 npx vitest run      # raw vitest (no Makefile)
+npx playwright test # raw playwright (no Makefile)
 ```
 
 ## Regression tests — learning from CHANGES.md

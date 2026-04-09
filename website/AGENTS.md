@@ -42,6 +42,7 @@ See `.kit/stack-choice.md` for a full comparison.
 | `.kit/hosting-server.md` | Deploying server-rendered sites (Railway, Fly.io, containers) |
 | `.kit/cicd.md` | CI/CD with GitHub Actions — lint, test, build, deploy |
 | `.kit/react-upgrade.md` | Upgrading a vanilla JS project to React |
+| `.kit/testing-browser.md` | Browser tests — console error gate, core flow tests, responsive checks |
 | `.kit/prerequisites.md` | Setup checklist — Node.js, editor, Git (for beginners) |
 
 ---

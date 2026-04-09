@@ -35,6 +35,7 @@ See `.kit/stack-choice.md` for a full comparison.
 | `.kit/dependency-management.md` | Managing internal and external dependencies |
 | `.kit/ci-strategy.md` | CI/CD for monorepos — caching, affected detection, parallel builds |
 | `.kit/shared-packages.md` | Creating and consuming shared libraries within the repo |
+| `.kit/testing-browser.md` | Browser tests in monorepos — cross-app verification, shared package changes |
 | `.kit/stack-choice.md` | Choosing between Turborepo, Nx, pnpm workspaces, Bazel |
 
 ---
@@ -46,6 +47,8 @@ See `.kit/stack-choice.md` for a full comparison.
 3. **Each package has its own tests.** Tests live next to the code they test. `make test` runs all packages.
 4. **Root commands orchestrate, package commands execute.** `npm run build` at root builds everything; each package defines its own `build` script.
 5. **CI uses affected detection.** Only build and test packages changed by a PR, not the entire repo.
+6. **After changing a shared package, run e2e for ALL consuming apps.** A passing unit test in the shared package does not mean the consuming app still works. Run `make verify` to catch cross-app breakage.
+7. **Browser verification is required for any app with a `playwright.config.*`.** See `.kit/testing-browser.md`.
 
 ## LOC budget override
 

@@ -12,3 +12,6 @@ coverage/
 .DS_Store
 Thumbs.db
 .claude/.progress-counter
+.verify/
+test-results/
+playwright-report/

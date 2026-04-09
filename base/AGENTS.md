@@ -18,8 +18,10 @@ Default: **full**. To switch, state "mode: lean" at session start or read `.kit/
 ## Key commands
 ```
 make dev        # start dev server
-make check      # full quality pipeline (format + lint + types + deadcode + tests + health)
-make test       # run tests only
+make check      # quality pipeline (format + lint + types + deadcode + tests + health)
+make e2e        # run Playwright browser tests (requires dev server running)
+make verify     # full verification: check + e2e — the gold standard for "done"
+make test       # run unit/integration tests only
 make health     # architecture health check only
 make ci         # check + build (runs in CI)
 make help       # list all targets
@@ -47,6 +49,7 @@ Read these when the situation calls for it. Do not load all of them upfront.
 | `.kit/modules/full.md` | Switching to full mode mid-session |
 | `.kit/modules/lean.md` | Switching to lean mode mid-session |
 | `.kit/git-and-github.md` | Commit hygiene, branching, pre-commit hooks, PR best practices |
+| `.kit/verification.md` | Defining "done" — browser checks, proof requirements, console error gate |
 | `.kit/retrospective.md` | End of project/milestone — writing a "Lessons Learned" section for the README |
 
 ---
@@ -54,7 +57,7 @@ Read these when the situation calls for it. Do not load all of them upfront.
 ## Non-negotiable rules (active in all modes)
 
 1. **No feature is done without tests.** At minimum: one passing test per exported function.
-2. **Run `make check` before declaring work complete.** Fix all failures before stopping.
+2. **Run `make verify` before declaring work complete** (or `make check` for non-UI projects). Fix all failures before stopping.
 3. **CHANGES.md — track progress as you go, not just at start/end.**
 
    **a) START:** Before writing any code, append a started entry:
@@ -110,6 +113,11 @@ Read these when the situation calls for it. Do not load all of them upfront.
    - **Fix hotspots** — areas with repeated fixes need better test coverage.
    See `.kit/testing.md` § Regression tests.
 
+9. **Console errors are bugs.** If any `console.error` or uncaught exception exists in the browser, fix it before moving on. Never ignore console output.
+10. **Show proof when claiming done.** Include test output, `make verify` results, or console log excerpt proving zero errors. Never claim success without verification output.
+11. **Finish and verify each task before starting the next.** Do not batch multiple features into one verification pass. See `.kit/verification.md` for phase discipline.
+12. **Before context compression or session end:** `make verify` must pass and work must be committed. Never compress mid-task if avoidable — compress at task boundaries.
+
 ---
 
 ## Hooks (Claude Code — supplementary)
@@ -118,8 +126,8 @@ The rules above apply to all agents whether hooks exist or not.
 - After every file edit: health check warning + auto-format
 - Before context compact: changelog analysis + session summary written
 - On session start: session summary + abandoned session detection
-- Periodic progress reminder: every ~5 user messages, checks for recent progress logging
-- On stop: auto-drafts completed entry from git diff + progress lines
+- Periodic progress + verification reminder: every ~5 messages, checks progress logging and nudges verification
+- On stop: auto-drafts completed entry from git diff + progress lines; warns if e2e not run
 - Pre-commit: warns if no progress lines logged for the current session
 
 ---
