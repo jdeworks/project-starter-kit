@@ -279,13 +279,13 @@ Projects built with the starter kit. Want yours listed? Open a PR.
 
 | Project | Built with | Links |
 |---------|-----------|-------|
-| Make It Look Good — design knowledge base for AI agents | base (no variant) | [GitHub](https://github.com/jdeworks/make-it-look-good) |
+| Make It Look Good — design knowledge base for AI agents | base (no variant) | *Coming soon* |
 
 ### Websites & Web Apps
 
 | Project | Built with | Links |
 |---------|-----------|-------|
-| Narratu — AI-powered audiobook creator | website + Vite + React | [GitHub](https://github.com/jdeworks/narratu) · [Demo](https://jdeworks.github.io/narratu/) |
+| Narratu — AI-powered audiobook creator | website + Vite + React | [GitHub](https://github.com/jdeworks/narratu-poc) · [Demo](https://jdeworks.github.io/narratu-poc/) |
 
 ### APIs & Services
 
